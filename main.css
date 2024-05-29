@@ -1,5 +1,5 @@
 * {
-    cursor: url(cursor.png), auto;
+    
 }
 body {
     color:aliceblue;
@@ -32,11 +32,10 @@ ul {
     font-size: 25px;
     font-family: monospace;
     float:right;
-    margin:15px;
+    margin:10px;
     padding: 5px;
     text-decoration: none;
     color: aliceblue;
-    cursor: url(cursor2.png), auto;
 }
 .navbar a#txt:hover{
     color:greenyellow;
@@ -46,6 +45,10 @@ ul {
     width: 55px;
     height: 55px;
     margin-left:10px;
+}
+.navi {
+    float: right;
+    display:none;
 }
 
 .intro {
@@ -165,6 +168,30 @@ ul {
     color:greenyellow;
     box-shadow: 4px 1.5px greenyellow;
 }
+@media only screen and (max-width: 1100px) {
+  /* For mobile phones: */
+    .ftGDProjects ul {
+        grid-template-columns: auto auto auto;
+    }
+}
+@media only screen and (max-width: 800px) {
+  /* For mobile phones: */
+    .ftGDProjects ul {
+        grid-template-columns: auto auto;
+    }
+    .navbar a#txt{
+        display: none;
+    }
+    .navi {
+        display:block;
+        font-size:60px;
+        color:white;
+        text-decoration: none;
+        padding-bottom: 10px;
+        padding-right:5px;
+        margin-top:-10px;
+    }
+}
 
 .ftWDProjects h2 {
     font-family: monospace;
@@ -199,6 +226,18 @@ ul {
 .ftWDProjects button:hover {
     box-shadow: 4px 1.5px greenyellow;
     color: greenyellow;
+}
+@media only screen and (max-width: 1100px) {
+  /* For mobile phones: */
+    .ftWDProjects ul {
+        grid-template-columns: auto auto auto;
+    }
+}
+@media only screen and (max-width: 800px) {
+  /* For mobile phones: */
+    .ftWDProjects ul {
+        grid-template-columns: auto auto;
+    }
 }
 
 .footer {
@@ -295,4 +334,10 @@ input[type=submit] {
 .submitForm {
     text-align: center;
     margin-bottom:85px;
+}
+@media only screen and (max-width: 700px) {
+  /* For mobile phones: */
+    .footer a {
+        float:left;
+    }
 }
