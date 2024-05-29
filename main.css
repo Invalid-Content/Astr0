@@ -1,0 +1,298 @@
+* {
+    cursor: url(cursor.png), auto;
+}
+body {
+    color:aliceblue;
+    margin:0;
+    background-color: #111118;
+};
+}
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    overflow: hidden;
+    Background-color: #111118e6;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    border-bottom-style: dashed;
+    border-bottom-width: 2px;
+    border-bottom-color: greenyellow;
+    z-index: 4;
+}
+.navbar li{
+    display: inline;
+    
+}
+.navbar a#txt{
+    font-size: 25px;
+    font-family: monospace;
+    float:right;
+    margin:15px;
+    padding: 5px;
+    text-decoration: none;
+    color: aliceblue;
+    cursor: url(cursor2.png), auto;
+}
+.navbar a#txt:hover{
+    color:greenyellow;
+    box-shadow: 6px 3px greenyellow;
+}
+.navbar img {
+    width: 55px;
+    height: 55px;
+    margin-left:10px;
+}
+
+.intro {
+    margin-top: 150px;
+    margin-left: 20px;
+}
+.intro h1 {
+    font-size: 40px;
+    font-family: sans-serif;
+    color:aliceblue;
+}
+.intro h4{
+    font-family: monospace;
+    font-size: 15px;
+}
+.intro a {
+    background-color: #111121;
+    border: none;
+    color: aliceblue;
+    padding: 15px 185px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 25px;
+    font-family: monospace;
+    box-shadow: 6px 3px greenyellow;
+    margin-top: 40px;
+}
+.intro a:hover {
+    box-shadow: 4px 1.5px greenyellow;
+    color: greenyellow;
+}
+.intro img {
+    width:600px;
+    float:right;
+    margin-right: 80px;
+    margin-top:-250px;
+}
+
+.ftGDProjects h2 {
+    font-family: monospace;
+    margin-top:100px;
+    margin-left:20px;
+}
+.ftGDProjects ul {
+    display:grid;
+    grid-template-columns: auto auto auto auto;
+    padding: 10px;
+    list-style: none;
+    max-width: 1200px;
+}
+.ftGDProjects ul img {
+    width:250px;
+}
+.ftGDProjects button {
+    width:250px;
+    height: 250px;
+    background-color: #111121;
+    border: none;
+    color: aliceblue;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    font-family: monospace;
+    box-shadow: 6px 3px greenyellow;
+    margin: 10px;
+}
+.ftGDProjects button:hover {
+    box-shadow: 4px 1.5px greenyellow;
+    color: greenyellow;
+}
+.gDP1, .gDP2, .gDP3, .gDP4, .gDP5, .gDP6, .gDP7{
+    display: grid;
+    margin: 0px;
+    width: 250px;
+    height: 250px;
+    perspective: 1000px;
+    margin: 10px;
+}
+.flip-box-inner, .flip-box-inner2, .flip-box-inner3, .flip-box-inner4, .flip-box-inner5, .flip-box-inner6, .flip-box-inner7{
+    width: 250px;
+    height: 250px;
+    text-align: center;
+    transition: transform 0.3s;
+    transform-style: preserve-3d;
+}
+.gDP1:hover .flip-box-inner, .gDP2:hover .flip-box-inner2,.gDP3:hover .flip-box-inner3, .gDP4:hover .flip-box-inner4,.gDP5:hover .flip-box-inner5, .gDP6:hover .flip-box-inner6, .gDP7:hover .flip-box-inner7{
+    transform: rotateY(180deg) rotateZ(0deg);
+}
+.flip-box-front, .flip-box-back, .flip-box-front2, .flip-box-back2, .flip-box-front3, .flip-box-back3, .flip-box-front4, .flip-box-back4, .flip-box-front5, .flip-box-back5, .flip-box-front6, .flip-box-back6, .flip-box-front7, .flip-box-back7{
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+.flip-box-front, .flip-box-front2, .flip-box-front3, .flip-box-front4, .flip-box-front5, .flip-box-front6, .flip-box-front7{
+    color: black;
+}
+.flip-box-back, .flip-box-back2, .flip-box-back3, .flip-box-back4, .flip-box-back5, .flip-box-back6, .flip-box-back7{
+    background-color: #111121;
+    color: white;
+    transform: rotateY(180deg) rotateZ(0deg);
+}
+.gDP1 a, .gDP2 a, .gDP3 a, .gDP4 a, .gDP5 a, .gDP6 a, .gDP7 a {
+    background-color: #111121;
+    font-size: 25px;
+    padding:5px;
+    font-family: monospace;
+    box-shadow: 6px 3px greenyellow;
+}
+.gDP1 p, .gDP2 p, .gDP3 p, .gDP4 p, .gDP5 p, .gDP6 p, .gDP7 p {
+    padding: 5px;
+}
+.gDP1 a:hover, .gDP2 a:hover, .gDP3 a:hover, .gDP4 a:hover, .gDP5 a:hover, .gDP6 a:hover, .gDP7 a:hover {
+    color:greenyellow;
+    box-shadow: 4px 1.5px greenyellow;
+}
+
+.ftWDProjects h2 {
+    font-family: monospace;
+    margin-top: 100px;
+    margin-left:20px;
+}
+.ftWDProjects ul {
+    display:grid;
+    grid-template-columns: auto auto auto auto;
+    padding: 10px;
+    max-width: 1200px;
+    list-style: none;
+}
+.ftWDProjects ul img {
+    width:250px;
+    padding:10px;
+}
+.ftWDProjects button {
+    width:250px;
+    height: 250px;
+    background-color: #111121;
+    border: none;
+    color: aliceblue;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    font-family: monospace;
+    box-shadow: 6px 3px greenyellow;
+    margin: 20px;
+}
+.ftWDProjects button:hover {
+    box-shadow: 4px 1.5px greenyellow;
+    color: greenyellow;
+}
+
+.footer {
+    margin-top: 100px;
+}
+.footer ul {
+    list-style: none;
+}
+.footer img {
+    width: 40px;
+    float:right;
+    margin:7px;
+    margin-top: 15px;
+    border-radius: 8px;
+}
+.footer img#img1:hover {
+    content: url("linkedIn1.png")
+}
+.footer img#img2:hover {
+    content: url("gitHub1.png")
+}
+.footer img#img3:hover {
+    content: url("twitter1.png")
+}
+.footer img#img4:hover {
+    content: url("instagram1.png")
+}
+.footer img#img5:hover {
+    content: url("youTube1.png")
+}
+.footer a {
+    font-size: 25px;
+    font-family: monospace;
+    box-shadow: 6px 3px greenyellow;
+    background-color: #111121;
+    border: none;
+    color: aliceblue;
+    float: right;
+    text-decoration: none;
+    margin: 15px;
+    margin-top:15px;
+    padding:5px;
+}
+.footer a:hover {
+    box-shadow: 4px 1.5px greenyellow;
+    color: greenyellow;
+}
+.footer h4 {
+    float:left;
+    margin-left:20px;
+    margin-top: 30px;
+    font-family: monospace
+}
+/*Contact page */
+.contact {
+    padding: 12px 24px 24px 24px;
+	margin: 40px auto;
+    margin-top: 150px;
+    max-width: 600px;
+}
+.contact h2 {
+    font-family: monospace;
+}
+.contact p {
+    font-size: 20px;
+    font-family: monospace;
+    margin-bottom: 5px;
+}
+input[type=text], input[type=email], textarea {
+    width: 100%;
+    padding: 12px;
+    background: #111132;
+    box-sizing: border-box;
+
+    margin-bottom: 16px;
+    resize: vertical;
+    box-shadow:  0px 3px greenyellow;
+    border: 10px;
+    border-color: #111118;
+    color:aliceblue;
+}
+input[type=submit] {
+    background: #111132;
+    box-shadow: 6px 3px greenyellow;
+	color: white;
+	border: 0;
+	padding: 12px 24px;
+	border-radius: 4px;
+	transition: all ease-in-out 0.1s;
+    text-align: center;
+    font-size: 20px;
+    font-family: monospace;
+}
+.submitForm {
+    text-align: center;
+    margin-bottom:85px;
+}
