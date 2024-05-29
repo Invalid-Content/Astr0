@@ -377,7 +377,4 @@ input[type=submit] {
     .footer li {
         display: none;
     }
-    body {
-        position: absolute;
-    }
 }
