@@ -14,8 +14,25 @@
             <li><a id="txt" href="/portfolioSkills.html">Skills</a></li>
             <li><a id="txt" href="/portfolioProjects.html">Projects</a></li>
             <li><a id="txt" href="/portfolioAbout.html">About</a></li>
+            <li><a class="navi" onclick="openNav()">&#9776;</a></li>
         </ul>
     </div>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="/portfolioAbout.html">About</a>
+        <a href="/portfolioProjects.html">Projects</a>
+        <a href="/portfolioSkills.html">Skills</a>
+        <a href="/portfolioContact.html">Contact</a>
+    </div>
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
     <div class="intro">
         <h1>Hi, I'm Tom<b style="color: greenyellow; font-size: 50px;">.</b></h1>
         <h4>I'm a junior Front End Developer <b style="color: greenyellow; font-size: px;">&amp;</b> Graphic Designer</h4>
