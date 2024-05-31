@@ -359,8 +359,9 @@ input[type=submit] {
         grid-template-columns: auto auto;
     }
     .navbar a#txt{
-        display: none;
+        display:none;
     }
+    
     .navi {
         display:block;
         font-size:60px;
