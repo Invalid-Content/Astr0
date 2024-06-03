@@ -46,6 +46,7 @@ ul {
     height: 55px;
     margin-left:10px;
 }
+
 .navi {
     float: right;
     display:none;
@@ -62,7 +63,6 @@ ul {
     transition: 0.5s;
     padding-top: 60px;
 }
-
 .sidenav a {
     padding: 8px 8px 8px 32px;
     font-family: monospace;
@@ -72,19 +72,48 @@ ul {
     display: block;
     transition: 0.3s;
 }
-
 .sidenav a:hover {
     color: greenyellow;
 }
-
 .sidenav .closebtn {
     position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
+    top: -1px;
+    font-size: 65px;
+    right: 4px;
+    width: 300
     margin-left: 50px;
 }
-
+.sidenavfoot {
+    position: fixed;
+    margin: 2px;
+    bottom: 10px;
+    transition-delay: 2s;
+    transition: 0.3s;
+    opacity: 1;
+}
+.sidenavfoot img {
+    width: 40px;
+    margin: 0 0 5px 25px;
+    border-radius: 5px;
+}
+.sidenavfoot img#img1:hover {
+    content: url("linkedIn1.png")
+}
+.sidenavfoot img#img2:hover {
+    content: url("gitHub1.png")
+}
+.sidenavfoot img#img3:hover {
+    content: url("twitter1.png")
+}
+.sidenavfoot img#img4:hover {
+    content: url("instagram1.png")
+}
+.sidenavfoot img#img5:hover {
+    content: url("youTube1.png")
+}
+.sidenavfoot img#img6:hover {
+    content: url("email1.png")
+}
 @media screen and (max-height: 450px) {
     .sidenav {
         padding-top: 15px;
@@ -251,7 +280,14 @@ ul {
 
 
 .footer {
+    position: fixed;
+    bottom: -100px;
+    width: 100%;
     margin-top: 100px;
+    transition: bottom 0.5s ease;
+}
+.footer.show {
+    bottom: 0;
 }
 .footer ul {
     list-style: none;
@@ -299,8 +335,9 @@ ul {
 .footer h4 {
     float:left;
     margin-left:20px;
-    margin-top: 30px;
-    font-family: monospace
+    margin-top: 60px;
+    font-family: monospace;
+    transition: 0.3s;
 }
 /*Contact page */
 .contact {
@@ -393,9 +430,10 @@ input[type=submit] {
 @media only screen and (max-width: 450px) {
   /* For thin mobile phones: */
     .footer a {
-        width: 25%;
-        font-size: 14px;
+        width: 75px;
+        font-size: 17px;
         text-align: center;
+        margin-top: 25px;
     }
     .ftWDProjects ul {
         grid-template-columns: auto;

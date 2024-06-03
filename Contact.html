@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9WRDG7SPM1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-9WRDG7SPM1');
+    </script>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=0.7">
+    <title>Tom Bridgeland</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="/index.html"><img src="logo.png" alt="Logo"/></a></li>
+            <li><a id="txt" href="/Contact.html">Contact</a></li>
+            <li><a id="txt" href="/Skills.html">Skills</a></li>
+            <li><a id="txt" href="/Projects.html">Projects</a></li>
+            <li><a id="txt" href="/About.html">About</a></li>
+            <li><a class="navi" onclick="openNav()">&#9776;</a></li>
+        </ul>
+    </div>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="/About.html">About</a>
+        <a href="/Projects.html">Projects</a>
+        <a href="/Skills.html">Skills</a>
+        <a href="/Contact.html">Contact</a>
+    </div>
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
+    <div class="contact">
+        <h1>Contact Me</h1>
+        <p>Reach me at tom@astr0.co.uk</p>
+        <form action="sendmail.php" name="contact_form">
+            <label for="name"><p>Name</p></label>
+            <input name="name" type="text" required/>
+            <br>
+            <label for="email"><p>Email Address</p></label>
+            <input name="email" type="email" required/>
+            <br>
+            <label for="message"><p>Message</p></label>
+            <textarea name="message" cols="20" rows="10" required></textarea>
+            <br>
+            <div class="submitForm">
+            <input type="submit" value="Submit"/>
+            </div>
+        </form>
+    </div>
+    <div class="footer">
+        <h4>2024 | Tom Bridgeland</h4>
+        <ul>
+            <li><img id="img1" src="linkedIn.png" alt="LinkedIn"/></li>
+            <li><img id="img2" src="gitHub.png" alt="GitHub"/></li>
+            <li><img id="img3" src="twitter.png" alt="Twitter"/></li>
+            <li><img id="img4" src="instagram.png" alt="Instagram"/></li>
+            <li><img id="img5" src="youTube.png" alt="YouTube"/></li>
+            <a>Contact Me</a>
+        </ul>
+    </div>
+</body>
+</html>
