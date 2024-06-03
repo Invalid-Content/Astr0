@@ -1,24 +1,24 @@
+<?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(
-        !empty($_POST['name'])
-        && !empty($_POST['email'])
-        && !empty($_POST['message'])
-    ){
-        $name = $_POST["name"];
-        $email = $_POST["email"];
-        $message = $_POST["message"];
+    $name = htmlspecialchars(strip_tags(trim($_POST['name'])));
+    $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+    $message = htmlspecialchars(strip_tags(trim($_POST['message'])));
 
-
-        $to = "tbridgeland1@gmail.com";
-        $subject = "New Contact Form Submission";
-        $body = "Name: {$name}\nEmail: {$email}\nPhone: {$phone}\nMessage: {$message}";
-        $headers = "From: {$email}";
-
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $to = 'tom@astr0.co.uk';
+        $subject = 'New Form Submission';
+        $body = "Name: $name\nEmail: $email\n\nMessage:\n$message";
+        $headers = "From: $email";
 
         if (mail($to, $subject, $body, $headers)) {
-            echo "Message sent successfully!";
+            echo 'Email successfully sent!';
         } else {
-            echo "Failed to send message.";
+            echo 'Email sending failed.';
         }
+    } else {
+        echo 'Invalid email address.';
     }
+} else {
+    echo 'Invalid request method.';
 }
+?>
