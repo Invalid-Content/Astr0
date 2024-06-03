@@ -52,11 +52,11 @@ ul {
 }
 .sidenav {
     height: 100%;
-    width: 0;
+    width: 0%;
     position: fixed;
     z-index: 4;
     top: 0;
-    right:0;
+    right: 0;
     background-color: #111118e6;
     overflow-x: hidden;
     transition: 0.5s;
@@ -65,15 +65,16 @@ ul {
 
 .sidenav a {
     padding: 8px 8px 8px 32px;
+    font-family: monospace;
     text-decoration: none;
     font-size: 25px;
-    color: #818181;
+    color: #FFFFFF;
     display: block;
     transition: 0.3s;
 }
 
 .sidenav a:hover {
-    color: #f1f1f1;
+    color: greenyellow;
 }
 
 .sidenav .closebtn {
@@ -85,8 +86,12 @@ ul {
 }
 
 @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
+    .sidenav {
+        padding-top: 15px;
+    }
+    .sidenav a {
+        font-size: 18px;
+    }
 }
 
 .intro {
@@ -114,6 +119,7 @@ ul {
     font-family: monospace;
     box-shadow: 6px 3px greenyellow;
     margin-top: 40px;
+    transition: 0.3s;
 }
 .intro a:hover {
     box-shadow: 4px 1.5px greenyellow;
@@ -166,6 +172,7 @@ ul {
     height: 250px;
     perspective: 1000px;
     margin: 10px;
+    transition: 0.3s;
 }
 .flip-box-inner, .flip-box-inner2, .flip-box-inner3, .flip-box-inner4, .flip-box-inner5, .flip-box-inner6, .flip-box-inner7{
     width: 250px;
@@ -283,6 +290,7 @@ ul {
     margin: 15px;
     margin-top:15px;
     padding:5px;
+    transition: 0.3s;
 }
 .footer a:hover {
     box-shadow: 4px 1.5px greenyellow;
@@ -338,7 +346,7 @@ input[type=submit] {
     text-align: center;
     margin-bottom:85px;
 }
-
+/* Scaling */
 @media only screen and (max-width: 1100px) {
     .ftGDProjects ul {
         grid-template-columns: auto auto auto;
@@ -354,7 +362,6 @@ input[type=submit] {
     }
 }
 @media only screen and (max-width: 800px) {
-  /* For mobile phones: */
     .ftGDProjects ul {
         grid-template-columns: auto auto;
     }
@@ -379,8 +386,33 @@ input[type=submit] {
     }
 }
 @media only screen and (max-width: 650px) {
-  /* For mobile phones: */
     .footer li {
+        display: none;
+    }
+}
+@media only screen and (max-width: 450px) {
+  /* For thin mobile phones: */
+    .footer a {
+        width: 25%;
+        font-size: 14px;
+        text-align: center;
+    }
+    .ftWDProjects ul {
+        grid-template-columns: auto;
+    }
+    .ftGDProjects ul {
+        grid-template-columns: auto;
+    }
+    .gDP7, .gDP6, .gDP5, .gDP4, .gDP3{
+        display: none;
+    }
+    .intro a {
+        padding: 10px 90px;
+    }
+}
+@media only screen and (min-width: 800px) {
+    /* Hide SideNav when resized */
+    .sidenav {
         display: none;
     }
 }
