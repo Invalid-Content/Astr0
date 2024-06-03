@@ -135,6 +135,7 @@ ul {
 .intro h4{
     font-family: monospace;
     font-size: 15px;
+    margin-right: 10px;
 }
 .intro a {
     background-color: #111121;
