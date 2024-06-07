@@ -10,7 +10,7 @@
 
         gtag('config', 'G-9WRDG7SPM1');
     </script>
-    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=0.7">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=0.75">
     <title>Tom Bridgeland</title>
     <link rel="stylesheet" href="main.css">
 </head>
@@ -33,12 +33,12 @@
         <a href="/Skills.html">Skills</a>
         <a href="/Contact.html">Contact</a>
         <div class="sidenavfoot">
-            <img id="img1" src="linkedIn.png" alt="LinkedIn"/>
-            <img id="img2" src="gitHub.png" alt="GitHub"/>
-            <img id="img3" src="twitter.png" alt="Twitter"/>
-            <img id="img4" src="instagram.png" alt="Instagram"/>
-            <img id="img5" src="youTube.png" alt="YouTube"/>
-            <img id="img6" src="email.png" alt="YouTube"/>
+            <a href="https://linkedin.com/in/tom-bridgeland" target="_blank"><img id="img1" src="linkedIn.png" alt="LinkedIn"/></a>
+            <a href="https://github.com/Invalid-Content" target="_blank"><img id="img2" src="gitHub.png" alt="GitHub"/></a>
+            <a href="https://x.com/Invalid_Content" target="_blank"><img id="img3" src="twitter.png" alt="Twitter"/></a>
+            <a href="https://www.instagram.com/astronout_official/" target="_blank"><img id="img4" src="instagram.png" alt="Instagram"/></a>
+            <a href="https://www.youtube.com/channel/UCUo3MCnlBtBsJLTzMDvlNVA" target="_blank"><img id="img5" src="youTube.png" alt="YouTube"/></a>
+            <a href="mailto:Tom@astr0.co.uk"><img id="img6" src="email.png" alt="YouTube"/></a>
         </div>
     </div>
     <script>
@@ -51,20 +51,28 @@
         }
     </script>
     <div class="intro">
-        <h1>Hi, I'm Tom<b style="color: greenyellow; font-size: 50px;">.</b></h1>
-        <h4>I'm a junior Front End Developer <b style="color: greenyellow; font-size: px;">&amp;</b> Graphic Designer</h4>
-        <a href="cv.pdf" target="_blank" class="resumeBtn">Resume</a>
+        <h1 style="text-align: center;">Coming Soon<b style="color: greenyellow; font-size: 50px;">.</b></h1>
     </div>
-    <div class="footer">
-        <h4>2024 | Tom Bridgeland</h4>
+    <div id="footer" class="footer">
+        <h4><b>2024 | Tom Bridgeland</b></h4>
         <ul>
-            <li><img id="img1" src="linkedIn.png" alt="LinkedIn"/></li>
-            <li><img id="img2" src="gitHub.png" alt="GitHub"/></li>
-            <li><img id="img3" src="twitter.png" alt="Twitter"/></li>
-            <li><img id="img4" src="instagram.png" alt="Instagram"/></li>
-            <li><img id="img5" src="youTube.png" alt="YouTube"/></li>
-            <a>Contact Me</a>
+            <li><a href="https://linkedin.com/in/tom-bridgeland" target="_blank"><img id="img1" src="linkedIn.png" alt="LinkedIn"/></a></li>
+            <li><a href="https://github.com/Invalid-Content" target="_blank"><img id="img2" src="gitHub.png" alt="GitHub"/></a></li>
+            <li><a href="https://x.com/Invalid_Content" target="_blank"><img id="img3" src="twitter.png" alt="Twitter"/></a></li>
+            <li><a href="https://www.instagram.com/astronout_official/" target="_blank"><img id="img4" src="instagram.png" alt="Instagram"/></a></li>
+            <li><a href="https://www.youtube.com/channel/UCUo3MCnlBtBsJLTzMDvlNVA" target="_blank"><img id="img5" src="youTube.png" alt="YouTube"/></a></li>
+            <a id="contact" href="mailto:Tom@astr0.co.uk" >Contact Me</a>
         </ul>
     </div>
+    <script>
+        window.addEventListener('scroll', function() {
+            const footer = document.getElementById('footer');
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            footer.classList.add('show');
+        } else {
+            footer.classList.remove('show');
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 * {
-    
+    zoom: 100%;
 }
 body {
     color:aliceblue;
@@ -86,15 +86,15 @@ ul {
     position: fixed;
     margin: 2px;
     bottom: 10px;
-    transition-delay: 2s;
-    transition: 0.3s;
-    opacity: 1;
     min-width: 250px;
+}
+.sidenavfoot a {
+    display: inline;
+    margin: 0 0 5px 25px;
+    padding: 0; 
 }
 .sidenavfoot img {
     width: 40px;
-    margin: 0 0 5px 25px;
-    border-radius: 5px;
 }
 .sidenavfoot img#img1:hover {
     content: url("linkedIn1.png")
@@ -157,10 +157,11 @@ ul {
 }
 .intro img {
     
-    width:700px;
-    float:right;
-    margin-right: 15%;
-    margin-top:-200px;
+    width:600px;
+    position: fixed;
+    top: 90px;
+    left: 460px;
+    transition: 0.3s;
 }
 
 .ftGDProjects h2 {
@@ -316,7 +317,7 @@ ul {
 .footer img#img5:hover {
     content: url("youTube1.png")
 }
-.footer a {
+.footer a#contact {
     font-size: 25px;
     font-family: monospace;
     box-shadow: 6px 3px greenyellow;
@@ -434,15 +435,25 @@ input[type=submit] {
     .gDP7, .gDP6, .gDP5, .gDP4{
         display: none;
     }
+    .intro img {
+        position: inherit;
+        width:500px;
+        margin-top:40px;
+}
 }
 @media only screen and (max-width: 650px) {
     .footer li {
         display: none;
     }
+    .intro img {
+        width:400px;
+        position:inherit;
+        margin-top:40px;
 }
-@media only screen and (max-width: 450px) {
+}
+@media only screen and (max-width: 500px) {
   /* For thin mobile phones: */
-    .footer a {
+    .footer a#contact {
         width: 75px;
         font-size: 17px;
         text-align: center;
@@ -460,10 +471,20 @@ input[type=submit] {
     .intro a {
         padding: 10px 90px;
     }
+    .intro img {
+        width:320px;
+        position:inherit;
+        margin-top:40px;
+}
 }
 @media only screen and (min-width: 800px) {
     /* Hide SideNav when resized */
     .sidenav {
         display: none;
     }
+}
+
+/* Project Template */
+.p1 {
+    margin-top: 140px;
 }
