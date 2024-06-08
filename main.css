@@ -334,7 +334,7 @@ ul {
     padding:5px;
     transition: 0.3s;
 }
-.footer a:hover {
+.footer a#contact:hover {
     box-shadow: 4px 1.5px greenyellow;
     color: greenyellow;
 }
@@ -402,7 +402,7 @@ input[type=submit] {
 }
 .wrkExp {
     margin-top: 80px;
-    max-width: 1090px;
+    max-width: 1150px;
 }
 .wrkTranscrip {
     margin: 20px;
@@ -421,16 +421,18 @@ input[type=submit] {
     list-style: none;
     grid-template-columns: auto auto;
     margin-bottom: 40px;
-    
 }
 .transcripImg img{
     width: 230px;
     margin: 20px;
     margin-left: 20%;
     box-shadow: 6px 3px greenyellow;
+    transition: 0.3s;
+    z-index: 0;
 }
 .transcripImg img:hover {
     transform: scale(1.5);
+    z-index: 1;
 }
 .eduExp {
     width: auto;
@@ -456,7 +458,7 @@ input[type=submit] {
         display: block;
     }
 }
-@media only screen and (max-width: 1040px) {
+@media only screen and (max-width: 1030px) {
     .wrkTranscrip {
         float: left;
     }
@@ -527,19 +529,14 @@ input[type=submit] {
         position:inherit;
         margin: 40px 0 0 20px;
 }
-    .transcripImg {
-        grid-template-columns: auto;
+    .transcripImg img{
+        width: 180px;
     }
 }
 @media only screen and (min-width: 800px) {
     /* Hide SideNav when resized */
     .sidenav {
         display: none;
-    }
-}
-@media only screen and (min-width: 1000px) {
-    .wrkTranscrip {
-        
     }
 }
 
