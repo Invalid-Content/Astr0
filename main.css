@@ -406,6 +406,7 @@ input[type=submit] {
 }
 .wrkTranscrip {
     margin: 20px;
+    margin-left: 20px;
     float:right;
 }
 .wrkTranscrip h3 {
@@ -420,7 +421,7 @@ input[type=submit] {
     display: grid;
     list-style: none;
     grid-template-columns: auto auto;
-    margin-bottom: 40px;
+    margin-bottom: 60px;
 }
 .transcripImg img{
     width: 230px;
@@ -433,6 +434,7 @@ input[type=submit] {
 .transcripImg img:hover {
     transform: scale(1.5);
     z-index: 1;
+    box-shadow: 4px 1.5px greenyellow;
 }
 .eduExp {
     width: auto;
@@ -458,7 +460,7 @@ input[type=submit] {
         display: block;
     }
 }
-@media only screen and (max-width: 1030px) {
+@media only screen and (max-width: 1039px) {
     .wrkTranscrip {
         float: left;
     }
