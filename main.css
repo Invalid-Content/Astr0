@@ -425,8 +425,12 @@ input[type=submit] {
 }
 .transcripImg img{
     width: 230px;
-    margin: 10px;
+    margin: 20px;
+    margin-left: 20%;
     box-shadow: 6px 3px greenyellow;
+}
+.transcripImg img:hover {
+    transform: scale(1.5);
 }
 .eduExp {
     width: auto;
@@ -523,6 +527,9 @@ input[type=submit] {
         position:inherit;
         margin: 40px 0 0 20px;
 }
+    .transcripImg {
+        grid-template-columns: auto;
+    }
 }
 @media only screen and (min-width: 800px) {
     /* Hide SideNav when resized */
