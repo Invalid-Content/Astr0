@@ -5,6 +5,7 @@ body {
     color:aliceblue;
     margin:0;
     background-color: #111118;
+    font-family: monospace, sans-serif;
 };
 }
 ul {
@@ -158,10 +159,11 @@ ul {
 .intro img {
     
     width:600px;
-    position: fixed;
+    position: absolute;
     top: 90px;
-    left: 460px;
+    left: 450px;
     transition: 0.3s;
+    z-index: -1;
 }
 
 .ftGDProjects h2 {
@@ -240,6 +242,7 @@ ul {
 }
 .gDP1 p, .gDP2 p, .gDP3 p, .gDP4 p, .gDP5 p, .gDP6 p, .gDP7 p {
     padding: 5px;
+    font-family: sans-serif;
 }
 .gDP1 a:hover, .gDP2 a:hover, .gDP3 a:hover, .gDP4 a:hover, .gDP5 a:hover, .gDP6 a:hover, .gDP7 a:hover {
     color:greenyellow;
@@ -397,6 +400,43 @@ input[type=submit] {
 .abtMe p {
     max-width: 500px;
 }
+.wrkExp {
+    margin-top: 80px;
+    max-width: 1090px;
+}
+.wrkTranscrip {
+    margin: 20px;
+    float:right;
+}
+.wrkTranscrip h3 {
+    margin-top: 40px;
+}
+.wrkTranscrip p {
+    max-width: 500px;
+}
+
+.transcripImg{
+    float:left;
+    display: grid;
+    list-style: none;
+    grid-template-columns: auto auto;
+    margin-bottom: 40px;
+    
+}
+.transcripImg img{
+    width: 230px;
+    margin: 10px;
+    box-shadow: 6px 3px greenyellow;
+}
+.eduExp {
+    width: auto;
+    max-width: 500px;
+    margin-left:20px;
+}
+.eduExp h3 {
+    padding-top:100px;
+}
+
 /* Scaling */
 @media only screen and (max-width: 1100px) {
     .ftGDProjects ul {
@@ -412,6 +452,11 @@ input[type=submit] {
         display: block;
     }
 }
+@media only screen and (max-width: 1040px) {
+    .wrkTranscrip {
+        float: left;
+    }
+}
 @media only screen and (max-width: 800px) {
     .ftGDProjects ul {
         grid-template-columns: auto auto;
@@ -419,7 +464,6 @@ input[type=submit] {
     .navbar a#txt{
         display:none;
     }
-    
     .navi {
         display:block;
         font-size:60px;
@@ -438,8 +482,11 @@ input[type=submit] {
     .intro img {
         position: inherit;
         width:500px;
-        margin-top:40px;
-}
+        margin: 40px 0 0 20px;
+    }
+    .abtMe h3 {
+        margin-top: 10px;
+    }
 }
 @media only screen and (max-width: 650px) {
     .footer li {
@@ -448,7 +495,7 @@ input[type=submit] {
     .intro img {
         width:400px;
         position:inherit;
-        margin-top:40px;
+        margin: 40px 0 0 20px;
 }
 }
 @media only screen and (max-width: 500px) {
@@ -457,7 +504,7 @@ input[type=submit] {
         width: 75px;
         font-size: 17px;
         text-align: center;
-        margin-top: 25px;
+        margin: 25px 0 0 30px;
     }
     .ftWDProjects ul {
         grid-template-columns: auto;
@@ -474,13 +521,18 @@ input[type=submit] {
     .intro img {
         width:320px;
         position:inherit;
-        margin-top:40px;
+        margin: 40px 0 0 20px;
 }
 }
 @media only screen and (min-width: 800px) {
     /* Hide SideNav when resized */
     .sidenav {
         display: none;
+    }
+}
+@media only screen and (min-width: 1000px) {
+    .wrkTranscrip {
+        
     }
 }
 
