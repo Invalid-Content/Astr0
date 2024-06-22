@@ -6,7 +6,9 @@ body {
     margin:0;
     background-color: #111118;
     font-family: monospace, sans-serif;
-};
+    opacity: 0;
+    transition: opacity 0.2s;
+}
 }
 ul {
     list-style: none;
@@ -29,7 +31,7 @@ ul {
     display: inline;
     
 }
-.navbar a#txt{
+.navbar span#txt{
     font-size: 25px;
     font-family: monospace;
     float:right;
@@ -38,7 +40,7 @@ ul {
     text-decoration: none;
     color: aliceblue;
 }
-.navbar a#txt:hover{
+.navbar span#txt:hover{
     color:greenyellow;
     box-shadow: 6px 3px greenyellow;
 }
@@ -198,6 +200,12 @@ ul {
 .ftGDProjects button:hover {
     box-shadow: 4px 1.5px greenyellow;
     color: greenyellow;
+}
+.ftGDProjects ul {
+    margin: auto;
+}
+.ftWDProjects ul {
+    margin: auto;
 }
 .gDP1, .gDP2, .gDP3, .gDP4, .gDP5, .gDP6, .gDP7{
     display: grid;
@@ -391,6 +399,9 @@ input[type=submit] {
 }
 
 /* About */
+.aboutSec {
+    margin: auto;
+}
 .abtMe {
     margin: 20px;
 }
@@ -464,12 +475,13 @@ input[type=submit] {
     .wrkTranscrip {
         float: left;
     }
+    
 }
 @media only screen and (max-width: 800px) {
     .ftGDProjects ul {
         grid-template-columns: auto auto;
     }
-    .navbar a#txt{
+    .navbar span#txt{
         display:none;
     }
     .navi {
@@ -530,7 +542,7 @@ input[type=submit] {
         width:320px;
         position:inherit;
         margin: 40px 0 0 20px;
-}
+    }
     .transcripImg img{
         width: 180px;
     }
@@ -540,6 +552,7 @@ input[type=submit] {
     .sidenav {
         display: none;
     }
+
 }
 
 /* Project Template */

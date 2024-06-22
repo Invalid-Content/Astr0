@@ -11,9 +11,9 @@
         gtag('config', 'G-1WYHKHPQ9J');
     </script>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=0.75">
-    <meta name="description" content="Tom Bridgelad, Web Developer & Graphic Designer Portfolio About Me">
-    <meta name="keywords" content="About, Portfolio, HTML, CSS, JavaScript, Graphic, Design, Web Development Portfolio, HTML CSS JavaScript Portfolio, Graphic Design Portfolio, Web Developer in the UK, Freelance Web Developer, HTML CSS JavaScript Projects">
-    <title>Tom Bridgeland | About</title>
+    <meta name="description" content="Tom Bridgelad, Web Developer & Graphic Designer Portfolio My Skills">
+    <meta name="keywords" content="Skills, Portfolio, HTML, CSS, JavaScript, Graphic, Design, Web Development Portfolio, HTML CSS JavaScript Portfolio, Graphic Design Portfolio, Web Developer in the UK, Freelance Web Developer, HTML CSS JavaScript Projects">
+    <title>Tom Bridgeland | Skils</title>
     <link rel="stylesheet" href="main.css">
     <link rel="icon" type="image/x-icon" href="favicon.png">
 </head>
@@ -21,11 +21,11 @@
 <body>
     <div class="navbar">
         <ul>
-            <li><a href="/index.html"><img src="logo.png" alt="Logo"/></a></li>
-            <li><a id="txt" href="/Contact.html">Contact</a></li>
-            <li><a id="txt" href="/Skills.html">Skills</a></li>
-            <li><a id="txt" href="/Projects.html">Projects</a></li>
-            <li><a id="txt" href="/About.html">About</a></li>
+            <li><span onclick="transitionToPage('/index.html')"><img src="logo.png" alt="Logo"/></span></li>
+            <li><span onclick="transitionToPage('/Contact.html')" id="txt">Contact</span></li>
+            <li><span onclick="transitionToPage('/Skills.html')"id="txt" >Skills</span></li>
+            <li><span onclick="transitionToPage('/Projects.html')"id="txt">Projects</span></li>
+            <li><span onclick="transitionToPage('/About.html')"id="txt">About</span></li>
             <li><a class="navi" onclick="openNav()">&#9776;</a></li>
         </ul>
     </div>
@@ -54,36 +54,8 @@
         }
     </script>
     <div class="intro">
-        <h1>Hi, I'm Tom<b style="color: greenyellow; font-size: 50px;">.</b></h1>
-        <h4>I'm a junior Front End Developer <b style="color: greenyellow; font-size: px;">&amp;</b> Graphic Designer</h4>
-        <a href="tomBridgelandCV.pdf" target="_blank" class="resumeBtn" rel="nofollow">Resume</a>
-        <img src="me.png"/>
+        <h1 style="text-align: center;">Coming Soon<b style="color: greenyellow; font-size: 50px;">.</b></h1>
     </div>
-    <div class="abtMe">
-    <h3>Who Am I?</h3>
-    <p>I am Tom, a 25-year-old self-taught graphic designer and front-end web developer. Over the past years, I have been actively nurturing my skills in HTML, CSS, JavaScript, Python, and Ruby. Also, I have mastered the use of the graphic design tools InDesign and most Affinity products. I am passionate about the role I play in this field of creating highly appealing, visually functional, and interactive digital experiences. My work always involves a touch of a keen eye for detail, a sense of aesthetics, and a knowledgeable person keeping up with the current design and development trends.<br><br>I am currently looking for a role where I can use the many skills I have cultivated in graphic design and front-end web development. Be it conceptualizing an attention-arresting visual brand identity or building a user-friendly website, creativity and technical skills are what I bring to the table.</p>
-    </div>
-    <div class="wrkExp">
-        <div class="wrkTranscrip">
-            <h3>Work Experience</h3>
-            <p>While my professional experience may be limited, my strong drive and dedication to continuous learning have equipped me with a solid foundation in both graphic design and web development. I'm excited about the opportunity to leverage my diverse skill set and collaborate with like-minded professionals. I am eager to contribute to innovative projects that push the boundaries of design and technology, and I am confident that my enthusiasm and commitment will make a valuable addition to any team.</p>
-            <h4>tranScrip - Marketing Intern</h4>
-            <p>A Pharmaceutical Consultancy</p>
-            <p>I was responsible for formating &amp; creating documents (posters, brochures, diagrams depicting processes) using Indesign &amp; Affinity Designer, using video editors to create short social posts, working on website wordpress uploads and updates and working with BD to bring in business using tools like MailChimp and Excel Mail Merge.</p>
-        </div>
-        <div class="transcripImg">
-            <img src="postertranScrip.png"/>
-            <img src="healthtranScrip.png"/>
-            <img src="brochureImg.png"/>
-            <img src="holidaysImg.png"/>
-        </div>
-    </div>
-    <div class="eduExp">
-        <h3>Education</h3>
-        <p>While my professional experience may be limited, my strong drive and dedication to continuous learning have equipped me with a solid foundation in both graphic design and web development. I'm excited about the opportunity to leverage my diverse skill set and collaborate with like-minded professionals. I am eager to contribute to innovative projects that push the boundaries of design and technology, and I am confident that my enthusiasm and commitment will make a valuable addition to any team.</p>
-    </div>
-    <br>
-    <br>
     <div id="footer" class="footer">
         <h4><b>2024 | Tom Bridgeland</b></h4>
         <ul>
@@ -104,6 +76,16 @@
             footer.classList.remove('show');
             }
         });
+        window.transitionToPage = function(href) {
+        document.querySelector('body').style.opacity = 0
+            setTimeout(function() { 
+            window.location.href = href
+        }, 500)
+        }
+
+        document.addEventListener('DOMContentLoaded', function(event) {
+            document.querySelector('body').style.opacity = 1
+        })
     </script>
 </body>
 </html>
