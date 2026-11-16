@@ -1,0 +1,2377 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Task Boards</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg: #f3eee4;
+      --bg-grad-1: #f7f2e9;
+      --bg-grad-2: #efe8db;
+      --panel: #fffcf7;
+      --panel-2: #f7f1e7;
+      --panel-glass: rgba(255,252,247,0.88);
+      --panel-glass-strong: rgba(255,252,247,0.92);
+      --panel-border: rgba(26,23,20,0.1);
+      --line: rgba(26,23,20,0.12);
+      --line-strong: rgba(26,23,20,0.22);
+      --text: #1a1714;
+      --muted: #5c554c;
+      --shadow: 0 10px 30px rgba(26, 23, 20, 0.08);
+      --card-border: rgba(26, 23, 20, .14);
+      --card-selected: rgba(26, 23, 20, .45);
+      --field-bg: rgba(243,238,228,0.62);
+      --field-bg-focus: rgba(255,252,247,0.96);
+      --field-focus-ring: rgba(26,23,20,0.12);
+      --button-bg: #fffcf7;
+      --button-text: #1a1714;
+      --button-border: rgba(26,23,20,0.14);
+      --icon-btn-bg: rgba(26,23,20,0.06);
+      --icon-btn-hover: rgba(26,23,20,0.1);
+      --icon-btn-text: #1a1714;
+      --tag-bg: rgba(243,238,228,0.8);
+      --ghost-bg: rgba(255,252,247,0.94);
+      --workspace-overlay: rgba(243,238,228,0.72);
+      --workspace-dot: rgba(26,23,20,0.12);
+      --empty-col-bg: #f7f1e7;
+
+      --card-yellow: #e8c96a;
+      --card-blue: #7da7c9;
+      --card-green: #8fbf8a;
+      --card-pink: #d48a9a;
+      --card-purple: #a98bc4;
+      --card-orange: #d4a06a;
+    }
+
+    body.dark{
+      --bg: #141210;
+      --bg-grad-1: #181410;
+      --bg-grad-2: #100e0c;
+      --panel: #24201c;
+      --panel-2: #1c1915;
+      --panel-glass: rgba(36,32,28,0.92);
+      --panel-glass-strong: rgba(36,32,28,0.94);
+      --panel-border: rgba(244,239,230,0.1);
+      --line: rgba(244,239,230,0.14);
+      --line-strong: rgba(244,239,230,0.24);
+      --text: #f4efe6;
+      --muted: #c9c0b4;
+      --shadow: 0 12px 36px rgba(0, 0, 0, 0.36);
+      --card-border: rgba(244,239,230,0.1);
+      --card-selected: rgba(244, 239, 230, 0.55);
+      --field-bg: rgba(255,255,255,0.06);
+      --field-bg-focus: rgba(255,255,255,0.1);
+      --field-focus-ring: rgba(244,239,230,0.16);
+      --button-bg: #2a2520;
+      --button-text: #f4efe6;
+      --button-border: rgba(244,239,230,0.16);
+      --icon-btn-bg: rgba(244,239,230,0.08);
+      --icon-btn-hover: rgba(244,239,230,0.14);
+      --icon-btn-text: #f4efe6;
+      --tag-bg: rgba(255,255,255,0.08);
+      --ghost-bg: rgba(36,32,28,0.94);
+      --workspace-overlay: rgba(20,18,16,0.78);
+      --workspace-dot: rgba(244,239,230,0.12);
+      --empty-col-bg: #1c1915;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body{
+      margin:0;
+      font-family: Outfit, system-ui, sans-serif;
+      background: linear-gradient( var(--bg-grad-1) 0%, var(--bg-grad-2));
+      color: var(--text);
+      transition: background .2s ease, color .2s ease;
+    }
+
+    button, input, textarea, select { font: inherit; }
+
+    .app{
+      min-height:100vh;
+      display:grid;
+      grid-template-rows:auto 1fr;
+      gap:16px;
+      padding:18px;
+    }
+
+    .topbar{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      background: var(--panel-glass-strong);
+      backdrop-filter: blur(8px);
+      border:1px solid var(--panel-border);
+      border-radius:20px;
+      padding:14px 16px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 12px;
+      z-index: 100;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+
+    .brand-badge{
+      width:38px;
+      height:38px;
+      border-radius:12px;
+      background:
+        linear-gradient(135deg, color-mix(in srgb, var(--card-yellow) 80%, white), transparent 62%),
+        linear-gradient(225deg, color-mix(in srgb, var(--card-green) 75%, white), transparent 58%),
+        linear-gradient(45deg, color-mix(in srgb, var(--card-blue) 70%, white), var(--panel));
+      border: 1px solid var(--line);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+      flex:0 0 auto;
+    }
+
+    .brand h1{
+      margin:0;
+      font-family: Fraunces, Georgia, serif;
+      font-size:18px;
+      font-weight: 650;
+      line-height:1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .brand p{
+      margin:2px 0 0;
+      color: var(--muted);
+      font-size:13px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width:420px;
+    }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+
+    .btn{
+      border:1px solid var(--button-border);
+      background: var(--button-bg);
+      color:var(--button-text);
+      border-radius:12px;
+      padding:10px 14px;
+      cursor:pointer;
+      box-shadow: 0 2px 8px rgba(18, 36, 66, 0.04);
+      transition:.18s ease;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+      border-color: var(--line-strong);
+    }
+
+    .btn.primary{
+      background: var(--text);
+      color: var(--bg);
+      border-color:transparent;
+    }
+
+    .btn.small{
+      padding:8px 10px;
+      border-radius:10px;
+      font-size:13px;
+    }
+
+    .menu-toggle{
+      position:static;
+    }
+
+    .dropdown{
+      position:relative;
+    }
+
+    .dropdown-toggle{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .dropdown-menu{
+      position:absolute;
+      top:calc(100% + 8px);
+      right:0;
+      min-width:180px;
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:14px;
+      box-shadow: var(--shadow);
+      padding:8px;
+      display:none;
+      flex-direction:column;
+      gap:6px;
+      z-index:300;
+    }
+
+    .dropdown.open .dropdown-menu{
+      display:flex;
+    }
+
+    .dropdown-item{
+      width:100%;
+      text-align:left;
+      border:1px solid transparent;
+      background:var(--button-bg);
+      color:var(--button-text);
+      border-radius:10px;
+      padding:10px 12px;
+      cursor:pointer;
+    }
+
+    .dropdown-item:hover{
+      border-color:var(--line-strong);
+      background:var(--field-bg);
+    }
+
+    .app-shell{
+      position:relative;
+      min-height:0;
+    }
+
+    .sidebar{
+      position:fixed;
+      top:18px;
+      right:18px;
+      bottom:18px;
+      width:min(460px, calc(100vw - 36px));
+      z-index:250;
+      transform:translateX(calc(100% + 24px));
+      transition:transform .22s ease;
+      min-height:auto;
+    }
+
+    .sidebar.open{
+      transform:translateX(0);
+    }
+
+    .backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.22);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .2s ease;
+      z-index:240;
+    }
+
+    .backdrop.show{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .workspace-layout{
+      display:grid;
+      grid-template-columns: 1.15fr .95fr;
+      gap:16px;
+      min-height:0;
+    }
+
+    .workspace-layout.focus-workspace,
+    .workspace-layout.focus-kanban{
+      grid-template-columns:1fr;
+    }
+
+    .workspace-layout.focus-workspace .kanban-panel{
+      display:none;
+    }
+
+    .workspace-layout.focus-kanban .workspace-panel{
+      display:none;
+    }
+
+    @media (max-width: 1100px){
+      .workspace-layout{
+        grid-template-columns:1fr;
+      }
+
+      .sidebar{
+        width:min(360px, calc(100vw - 24px));
+        right:12px;
+        top:12px;
+        bottom:12px;
+      }
+    }
+
+    .panel{
+      background: var(--panel-glass);
+      border: 1px solid var(--panel-border);
+      border-radius:22px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      min-height:300px;
+      display:flex;
+      flex-direction:column;
+      min-width:0;
+    }
+
+    .workspace-layout.focus-workspace .workspace-panel,
+    .workspace-layout.focus-kanban .kanban-panel{
+      min-height:calc(100vh - 128px);
+    }
+
+    .panel-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      padding:14px 16px;
+      border-bottom:1px solid var(--line);
+      background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--panel) 92%, transparent),
+        color-mix(in srgb, var(--panel-2) 96%, transparent)
+      );
+    }
+
+    .panel-head h2{
+      margin:0;
+      font-size:16px;
+    }
+
+    .panel-head p{
+      margin:2px 0 0;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .panel-head-actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .sidebar-body{
+      padding:14px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      overflow:auto;
+      min-height:0;
+      flex:1;
+    }
+
+    .stack{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .field, .select{
+      width:100%;
+      border:1px solid var(--line);
+      background:var(--button-bg);
+      color:var(--text);
+      border-radius:12px;
+      padding:10px 12px;
+      outline:none;
+    }
+
+    .field:focus, .select:focus{
+      border-color: var(--line-strong);
+      box-shadow: 0 0 0 3px var(--field-focus-ring);
+    }
+
+    .folder-list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .folder-item{
+      border:1px solid var(--line);
+      border-radius:14px;
+      background: color-mix(in srgb, var(--panel) 88%, transparent);
+      overflow:hidden;
+    }
+
+    .folder-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      padding:10px 12px;
+      cursor:pointer;
+    }
+
+    .folder-left{
+      min-width:0;
+      flex:1;
+    }
+
+    .folder-name{
+      font-weight:700;
+      font-size:14px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .folder-meta{
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .folder-actions, .board-actions-row{
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+    }
+
+    .folder-boards{
+      border-top:1px solid var(--line);
+      padding:10px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .board-item{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      align-items:stretch;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px;
+      background: color-mix(in srgb, var(--panel-2) 90%, transparent);
+    }
+
+    .board-item.active{
+      border-color:#8aa9ff;
+      box-shadow: 0 0 0 3px rgba(138,169,255,.16);
+    }
+
+    .board-main{
+      min-width:0;
+      width:100%;
+    }
+
+    .board-name{
+      font-weight:700;
+      font-size:13px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .board-meta{
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .board-actions-row{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:6px;
+    }
+
+    .board-actions-row .btn{
+      width:100%;
+      text-align:center;
+    }
+
+    .workspace-wrap{
+      padding:14px;
+      min-height:0;
+      flex:1;
+      display:flex;
+    }
+
+    .workspace{
+      position:relative;
+      flex:1;
+      min-height:620px;
+      border-radius:20px;
+      border:1px dashed var(--line-strong);
+      overflow:auto;
+      background: var(--workspace-overlay);
+    }
+
+    .workspace-layout.focus-workspace .workspace{
+      min-height:calc(100vh - 210px);
+    }
+
+    .workspace-inner{
+      position:relative;
+      width:1800px;
+      height:1200px;
+      background:
+        linear-gradient(to right, var(--workspace-dot) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--workspace-dot) 1px, transparent 1px);
+      background-size: 24px 24px, 24px 24px;
+      background-position: 0 0, 0 0;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      overflow: auto;
+    }
+    .workspace-inner::-webkit-scrollbar {
+      display: none;
+    }
+    .kanban-wrap{
+      padding:14px;
+      min-height:0;
+      flex:1;
+      overflow:auto;
+    }
+
+    .workspace-layout.focus-kanban .kanban-wrap{
+      min-height:calc(100vh - 210px);
+    }
+
+    .kanban{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      min-width:100%;
+    }
+
+    .kanban-section{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .kanban-section-head{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .kanban-row-title{
+      width:100%;
+      border:none;
+      background:var(--field-bg);
+      color:var(--text);
+      border-radius:12px;
+      padding:10px 12px;
+      font-weight:700;
+      outline:none;
+    }
+
+    .kanban-row-title:focus{
+      background:var(--field-bg-focus);
+      box-shadow: inset 0 0 0 2px var(--field-focus-ring);
+    }
+
+    .kanban-section-grid{
+      display:flex;
+      align-items:flex-start;
+      gap:14px;
+      min-width:max-content;
+    }
+
+    .column{
+      width:300px;
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border:1px solid var(--line);
+      border-radius:18px;
+      box-shadow: 0 6px 20px rgba(18, 36, 66, 0.05);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      max-height:760px;
+    }
+
+    .workspace-layout.focus-kanban .column{
+      max-height:calc(100vh - 250px);
+    }
+
+    .column.drag-over{
+      border-color:#8aa9ff;
+      box-shadow: 0 0 0 3px rgba(138,169,255,.18);
+    }
+
+    .column-head{
+      padding:12px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      gap:8px;
+      align-items:flex-start;
+    }
+
+    .column-title{
+      flex:1;
+      min-width:0;
+      border:none;
+      background:transparent;
+      color:var(--text);
+      font-weight:700;
+      font-size:14px;
+      padding:4px 6px;
+      border-radius:8px;
+      outline:none;
+    }
+
+    .column-title:focus{
+      background: var(--field-bg);
+    }
+
+    .icon-btn{
+      width:32px;
+      height:32px;
+      border:none;
+      background:var(--icon-btn-bg);
+      border-radius:10px;
+      cursor:pointer;
+      color:var(--icon-btn-text);
+      flex:0 0 auto;
+    }
+
+    .icon-btn:hover{
+      background:var(--icon-btn-hover);
+    }
+
+    .column-body{
+      padding:12px;
+      display:block;
+      flex-direction:column;
+      gap:12px;
+      overflow:auto;
+      min-height:auto;
+    }
+
+    .kanban-dropzone{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      min-height:140px;
+    }
+
+    .empty-row{
+      color:var(--muted);
+      font-size:12px;
+      border:1px dashed var(--line);
+      border-radius:10px;
+      padding:24px 10px;
+      min-height:140px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      background:var(--empty-col-bg);
+    }
+
+    .card{
+      position:absolute;
+      width:260px;
+      border:1px solid var(--card-border);
+      border-radius:18px;
+      padding:12px;
+      box-shadow: 0 10px 24px rgba(19, 34, 62, 0.10);
+      user-select:none;
+      touch-action:none;
+      transition: box-shadow .18s ease, transform .18s ease, border-color .18s ease;
+      color: var(--card-text, #18202a);
+    }
+
+    .column-body .card{
+      position:relative;
+      width:100%;
+      left:auto !important;
+      top:auto !important;
+    }
+
+    .card.dragging{
+      opacity:.92;
+      transform:rotate(.6deg);
+      box-shadow: 0 18px 40px rgba(19,34,62,.24);
+      z-index:99999 !important;
+      pointer-events:none;
+    }
+
+    .card.selected{
+      border-color: var(--card-selected);
+      box-shadow: 0 16px 34px rgba(19, 34, 62, 0.16);
+    }
+
+    .card.compact{
+      padding-bottom:10px;
+    }
+
+    .card-head{
+      display:flex;
+      gap:8px;
+      align-items:flex-start;
+      margin-bottom:8px;
+    }
+
+    .drag-handle{
+      width:50px;
+      height:28px;
+      border:none;
+      border-radius:10px;
+      background: color-mix(in srgb, var(--panel) 70%, var(--line));
+      cursor:grab;
+      flex:0 0 auto;
+    }
+
+    .drag-handle:active{
+      cursor:grabbing;
+    }
+
+    .card-tools{
+      margin-left:auto;
+      display:flex;
+      gap:6px;
+      align-items:center;
+    }
+
+    .title,
+    .desc,
+    .tag-input,
+    .due-date{
+      width:100%;
+      border:none;
+      background:var(--field-bg);
+      border-radius:12px;
+      padding:10px 11px;
+      color:inherit;
+      outline:none;
+      resize:none;
+    }
+
+    .title{
+      font-weight:700;
+      min-height:44px;
+      margin-bottom:8px;
+    }
+
+    .desc{
+      min-height:84px;
+      margin-bottom:10px;
+      line-height:1.4;
+    }
+
+    .due-date{
+      margin-bottom:10px;
+    }
+
+    .title:focus,
+    .desc:focus,
+    .tag-input:focus,
+    .due-date:focus{
+      background:var(--field-bg-focus);
+      box-shadow: inset 0 0 0 2px var(--field-focus-ring);
+    }
+
+    .card-title-display{
+      background: var(--field-bg);
+      border-radius:12px;
+      padding:10px 11px;
+      font-weight:700;
+      margin-bottom:8px;
+      white-space:pre-wrap;
+      word-break:break-word;
+      line-height:1.35;
+      min-height:44px;
+    }
+
+    .card-title-display.empty{
+      color: color-mix(in srgb, var(--muted) 88%, transparent);
+      font-weight:600;
+    }
+
+    .card-due-display{
+      background:var(--field-bg);
+      border-radius:12px;
+      padding:8px 11px;
+      margin-bottom:8px;
+      font-size:12px;
+      font-weight:600;
+      line-height:1.3;
+    }
+
+    .tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-bottom:10px;
+    }
+
+    .tags.no-margin{
+      margin-bottom:0;
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border-radius:999px;
+      background:var(--tag-bg);
+      padding:6px 10px;
+      font-size:12px;
+      color:inherit;
+      max-width:100%;
+    }
+
+    .tag span{
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      max-width:160px;
+    }
+
+    .tag button{
+      border:none;
+      background:transparent;
+      color:inherit;
+      opacity:.7;
+      cursor:pointer;
+      padding:0;
+      font-size:14px;
+      line-height:1;
+      flex:0 0 auto;
+    }
+
+    .tag-add{
+      display:flex;
+      gap:8px;
+      margin-bottom:10px;
+    }
+
+    .tag-input{
+      min-height:40px;
+      padding:9px 11px;
+    }
+
+    .swatches{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .swatch{
+      width:22px;
+      height:22px;
+      border-radius:50%;
+      border:2px solid rgba(0,0,0,.08);
+      cursor:pointer;
+      transition: transform .15s ease;
+    }
+
+    .swatch:hover{
+      transform:scale(1.08);
+    }
+
+    .swatch.active{
+      box-shadow: 0 0 0 3px rgba(255,255,255,.95), 0 0 0 5px rgba(87, 108, 145, .22);
+    }
+
+    .swatch.custom{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:12px;
+      font-weight:700;
+      background:transparent;
+      color:inherit;
+    }
+
+    .ghost-note{
+      position:absolute;
+      inset:20px auto auto 20px;
+      color:var(--muted);
+      background:var(--ghost-bg);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px 12px;
+      font-size:13px;
+      pointer-events:none;
+    }
+
+    .muted{
+      color:var(--muted);
+      font-size:12px;
+    }
+    @media screen and (max-width: 768px) {
+      #clearBoardBtn, #saveAsBoardBtn{
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-badge" aria-hidden="true"></div>
+        <div>
+          <h1>Task Boards</h1>
+          <p id="currentBoardLabel">No board selected</p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <div class="dropdown" id="editDropdown">
+          <button class="btn primary dropdown-toggle" id="editMenuBtn" type="button" aria-haspopup="true" aria-expanded="false">
+            Edit ▾
+          </button>
+          <div class="dropdown-menu" id="editMenu">
+            <button class="dropdown-item" id="addTaskBtn" type="button">+ Add task</button>
+            <button class="dropdown-item" id="addColumnBtn" type="button">+ Add column</button>
+            <button class="dropdown-item" id="addRowBtn" type="button">+ Add row</button>
+          </div>
+        </div>
+        <button class="btn" id="saveAsBoardBtn">Save As</button>
+        <button class="btn" id="clearBoardBtn">Clear Board</button>
+        <button class="btn" id="themeToggleBtn">☾</button>
+        <button class="btn menu-toggle" id="menuToggleBtn" aria-label="Toggle boards menu">☰</button>
+      </div>
+    </div>
+
+    <div class="app-shell">
+      <aside class="panel sidebar" id="sidebar">
+        <div class="panel-head">
+          <div>
+            <h2>Settings</h2>
+            <p>Explore, Edit Folders &amp; Saves. </p>
+          </div>
+        </div>
+
+        <div class="sidebar-body">
+          <div class="stack">
+            <h3>Create a New Folder</h3>
+            <input class="field" id="newFolderInput" type="text" placeholder="New folder name" />
+            <button class="btn" id="createFolderBtn">Create folder</button>
+          </div>
+          
+          <h3>Create a New Board</h3>
+          <div class="stack">
+            <select class="select" id="boardFolderSelect"></select>
+            <input class="field" id="newBoardInput" type="text" placeholder="New board name" />
+            <button class="btn primary" id="createBoardBtn">Create board</button>
+          </div>
+          <br>
+          <h3>Folders &amp; Saves</h3>
+          <div class="folder-list" id="folderList"></div>
+        </div>
+      </aside>
+
+      <div class="backdrop" id="sidebarBackdrop"></div>
+
+      <div class="workspace-layout" id="workspaceLayout">
+
+        <section class="panel kanban-panel">
+          <div class="panel-head">
+            <div>
+              <h2>Task Manager</h2>
+              <p>Move tasks through each stage of work, from idea to completion.</p>
+            </div>
+            <div class="panel-head-actions">
+              <div class="muted"></div>
+              <button class="btn" id="kanbanFullscreenBtn">⛶</button>
+            </div>
+          </div>
+
+          <div class="kanban-wrap">
+            <div class="kanban" id="kanban"></div>
+          </div>
+        </section>
+        <section class="panel workspace-panel">
+          <div class="panel-head">
+            <div>
+              <h2>Workspace</h2>
+              <p>Drag tasks into an open space to organise ideas, plans, and priorities.</p>
+            </div>
+            <div class="panel-head-actions">
+              <div class="muted"></div>
+              <button class="btn" id="workspaceFullscreenBtn">⛶</button>
+            </div>
+          </div>
+
+          <div class="workspace-wrap">
+            <div class="workspace" id="workspace">
+              <div class="workspace-inner" id="workspaceInner">
+                <div class="ghost-note" id="workspaceHint">Click “Edit” to add Tasks. Use the Handle to Drag into Task Manager.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const APP_KEY = 'miro_task_board_app_v7';
+      const THEME_KEY = 'miro_task_board_theme_v1';
+
+      const COLORS = [
+        { key: 'yellow', value: getCssVar('--card-yellow') },
+        { key: 'blue', value: getCssVar('--card-blue') },
+        { key: 'green', value: getCssVar('--card-green') },
+        { key: 'pink', value: getCssVar('--card-pink') },
+        { key: 'purple', value: getCssVar('--card-purple') },
+        { key: 'orange', value: getCssVar('--card-orange') }
+      ];
+
+      const body = document.body;
+      const currentBoardLabel = document.getElementById('currentBoardLabel');
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      const saveAsBoardBtn = document.getElementById('saveAsBoardBtn');
+      const addTaskBtn = document.getElementById('addTaskBtn');
+      const addColumnBtn = document.getElementById('addColumnBtn');
+      const addRowBtn = document.getElementById('addRowBtn');
+      const clearBoardBtn = document.getElementById('clearBoardBtn');
+      const workspaceFullscreenBtn = document.getElementById('workspaceFullscreenBtn');
+      const kanbanFullscreenBtn = document.getElementById('kanbanFullscreenBtn');
+
+      const editDropdown = document.getElementById('editDropdown');
+      const editMenuBtn = document.getElementById('editMenuBtn');
+      const editMenu = document.getElementById('editMenu');
+
+      const menuToggleBtn = document.getElementById('menuToggleBtn');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+      const newFolderInput = document.getElementById('newFolderInput');
+      const createFolderBtn = document.getElementById('createFolderBtn');
+      const boardFolderSelect = document.getElementById('boardFolderSelect');
+      const newBoardInput = document.getElementById('newBoardInput');
+      const createBoardBtn = document.getElementById('createBoardBtn');
+      const folderList = document.getElementById('folderList');
+
+      const workspaceLayout = document.getElementById('workspaceLayout');
+      const workspace = document.getElementById('workspace');
+      const workspaceInner = document.getElementById('workspaceInner');
+      const kanban = document.getElementById('kanban');
+      const workspaceHint = document.getElementById('workspaceHint');
+
+      let app = loadApp() || createInitialAppState();
+      let theme = loadTheme();
+      let selectedCardId = null;
+      let dragState = null;
+      let focusMode = 'split';
+      let sidebarOpen = false;
+      let openFolders = new Set((app.folders || []).map(f => f.id));
+
+      applyTheme();
+      ensureAppIntegrity();
+      ensureCurrentBoard();
+      refreshFolderSelect();
+      render();
+
+      themeToggleBtn.addEventListener('click', () => {
+        theme = theme === 'dark' ? 'light' : 'dark';
+        saveTheme();
+        applyTheme();
+        render();
+      });
+
+      editMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = editDropdown.classList.toggle('open');
+        editMenuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+
+      editMenu.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+
+      menuToggleBtn.addEventListener('click', () => {
+        sidebarOpen = !sidebarOpen;
+        updateSidebarUI();
+      });
+
+      sidebarBackdrop.addEventListener('click', () => {
+        sidebarOpen = false;
+        updateSidebarUI();
+      });
+
+      saveAsBoardBtn.addEventListener('click', () => {
+        const current = getCurrentBoard();
+        const source = current || createEmptyBoardObject('Untitled Board', getFirstFolderId());
+        let name = prompt('Save board as:', current ? `${current.name} Copy` : 'New Board');
+        if (!name) return;
+        name = name.trim();
+        if (!name) return;
+
+        const folderId = current ? current.folderId : getFirstFolderId();
+        const clone = deepCloneBoard(source);
+        clone.id = uid();
+        clone.name = name;
+        clone.folderId = folderId;
+        clone.updatedAt = Date.now();
+        clone.createdAt = Date.now();
+
+        app.boards.push(clone);
+        app.currentBoardId = clone.id;
+        persistApp();
+        refreshFolderSelect();
+        render();
+      });
+
+      createFolderBtn.addEventListener('click', () => {
+        const name = newFolderInput.value.trim();
+        if (!name) return;
+        app.folders.push({
+          id: uid(),
+          name,
+          createdAt: Date.now()
+        });
+        newFolderInput.value = '';
+        openFolders = new Set(app.folders.map(f => f.id));
+        persistApp();
+        refreshFolderSelect();
+        renderSidebar();
+      });
+
+      createBoardBtn.addEventListener('click', () => {
+        const name = newBoardInput.value.trim() || 'Untitled Board';
+        const folderId = boardFolderSelect.value || getFirstFolderId();
+        const board = createEmptyBoardObject(name, folderId);
+        app.boards.push(board);
+        app.currentBoardId = board.id;
+        newBoardInput.value = '';
+        persistApp();
+        refreshFolderSelect();
+        render();
+      });
+
+      addTaskBtn.addEventListener('click', () => {
+        closeEditMenu();
+        const board = getCurrentBoard();
+        if (!board) {
+          alert('Create or open a board first.');
+          return;
+        }
+        const card = createCard(board);
+        board.cards.push(card);
+        selectedCardId = card.id;
+        markBoardUpdated(board);
+        persistApp();
+        render();
+      });
+
+      addColumnBtn.addEventListener('click', () => {
+        closeEditMenu();
+        const board = getCurrentBoard();
+        if (!board) {
+          alert('Create or open a board first.');
+          return;
+        }
+        board.columns.push({ id: uid(), title: 'New Column' });
+        markBoardUpdated(board);
+        persistApp();
+        render();
+      });
+
+      addRowBtn.addEventListener('click', () => {
+        closeEditMenu();
+        const board = getCurrentBoard();
+        if (!board) {
+          alert('Create or open a board first.');
+          return;
+        }
+        board.rows.push({ id: uid(), title: `Row ${board.rows.length + 1}` });
+        markBoardUpdated(board);
+        persistApp();
+        render();
+      });
+
+      clearBoardBtn.addEventListener('click', () => {
+        const board = getCurrentBoard();
+        if (!board) {
+          alert('Create or open a board first.');
+          return;
+        }
+        const ok = confirm('Delete all tasks and reset columns and rows for this board?');
+        if (!ok) return;
+        board.cards = [];
+        board.columns = defaultColumns();
+        board.rows = defaultRows();
+        selectedCardId = null;
+        markBoardUpdated(board);
+        persistApp();
+        render();
+      });
+
+      workspaceFullscreenBtn.addEventListener('click', () => {
+        focusMode = focusMode === 'workspace' ? 'split' : 'workspace';
+        updateFocusModeUI();
+      });
+
+      kanbanFullscreenBtn.addEventListener('click', () => {
+        focusMode = focusMode === 'kanban' ? 'split' : 'kanban';
+        updateFocusModeUI();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && focusMode !== 'split') {
+          focusMode = 'split';
+          updateFocusModeUI();
+        }
+
+        if (e.key === 'Escape' && sidebarOpen) {
+          sidebarOpen = false;
+          updateSidebarUI();
+        }
+
+        if (e.key === 'Escape') {
+          closeEditMenu();
+        }
+      });
+
+      document.addEventListener('pointermove', onPointerMove);
+      document.addEventListener('pointerup', onPointerUp);
+      document.addEventListener('pointercancel', onPointerUp);
+
+      document.addEventListener('click', (e) => {
+        closeEditMenu();
+
+        if (
+          !e.target.closest('.card') &&
+          !e.target.closest('.column-title') &&
+          !e.target.closest('.kanban-row-title')
+        ) {
+          selectedCardId = null;
+          renderWorkspace();
+          renderKanban();
+        }
+      });
+
+      function closeEditMenu() {
+        editDropdown.classList.remove('open');
+        editMenuBtn.setAttribute('aria-expanded', 'false');
+      }
+
+      function createInitialAppState() {
+        const folderId = uid();
+        const boardId = uid();
+        return {
+          folders: [
+            { id: folderId, name: 'General', createdAt: Date.now() }
+          ],
+          boards: [
+            {
+              id: boardId,
+              folderId,
+              name: 'Board 1',
+              createdAt: Date.now(),
+              updatedAt: Date.now(),
+              cards: [],
+              columns: defaultColumns(),
+              rows: defaultRows()
+            }
+          ],
+          currentBoardId: boardId
+        };
+      }
+
+      function defaultColumns() {
+        return [
+          { id: uid(), title: 'Backlog' },
+          { id: uid(), title: 'In Progress' },
+          { id: uid(), title: 'For Review' },
+          { id: uid(), title: 'Complete' }
+        ];
+      }
+
+      function defaultRows() {
+        return [
+          { id: uid(), title: 'Row 1' }
+        ];
+      }
+
+      function ensureAppIntegrity() {
+        if (!Array.isArray(app.folders) || !app.folders.length) {
+          app.folders = [{ id: uid(), name: 'General', createdAt: Date.now() }];
+        }
+
+        if (!Array.isArray(app.boards)) app.boards = [];
+
+        app.boards.forEach(board => {
+          if (!Array.isArray(board.cards)) board.cards = [];
+          if (!Array.isArray(board.columns) || !board.columns.length) board.columns = defaultColumns();
+          if (!Array.isArray(board.rows) || !board.rows.length) board.rows = defaultRows();
+
+          if (!board.folderId || !app.folders.some(f => f.id === board.folderId)) {
+            board.folderId = app.folders[0].id;
+          }
+
+          const fallbackRowId = board.rows[0]?.id || null;
+          board.cards.forEach(card => {
+            if (!('rowId' in card) || !board.rows.some(r => r.id === card.rowId)) {
+              card.rowId = fallbackRowId;
+            }
+            if (!('customColor' in card)) card.customColor = '';
+            if (!('dueDate' in card)) card.dueDate = '';
+          });
+        });
+      }
+
+      function ensureCurrentBoard() {
+        if (!app.boards.length) {
+          const board = createEmptyBoardObject('Board 1', getFirstFolderId());
+          app.boards.push(board);
+          app.currentBoardId = board.id;
+        }
+
+        if (!app.currentBoardId || !app.boards.some(b => b.id === app.currentBoardId)) {
+          app.currentBoardId = app.boards[0].id;
+        }
+      }
+
+      function createEmptyBoardObject(name, folderId) {
+        return {
+          id: uid(),
+          folderId,
+          name,
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+          cards: [],
+          columns: defaultColumns(),
+          rows: defaultRows()
+        };
+      }
+
+      function getFirstFolderId() {
+        if (!app.folders.length) {
+          app.folders.push({ id: uid(), name: 'General', createdAt: Date.now() });
+        }
+        return app.folders[0].id;
+      }
+
+      function getCurrentBoard() {
+        return app.boards.find(b => b.id === app.currentBoardId) || null;
+      }
+
+      function setCurrentBoard(boardId) {
+        app.currentBoardId = boardId;
+        selectedCardId = null;
+        sidebarOpen = false;
+        persistApp();
+        render();
+      }
+
+      function markBoardUpdated(board) {
+        board.updatedAt = Date.now();
+      }
+
+      function deepCloneBoard(board) {
+        return JSON.parse(JSON.stringify(board));
+      }
+
+      function persistApp() {
+        localStorage.setItem(APP_KEY, JSON.stringify(app));
+      }
+
+      function loadApp() {
+        try {
+          const raw = localStorage.getItem(APP_KEY);
+          if (!raw) return null;
+          return JSON.parse(raw);
+        } catch {
+          return null;
+        }
+      }
+
+      function loadTheme() {
+        const saved = localStorage.getItem(THEME_KEY);
+        if (saved === 'light' || saved === 'dark') return saved;
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      function saveTheme() {
+        localStorage.setItem(THEME_KEY, theme);
+      }
+
+      function applyTheme() {
+        body.classList.toggle('dark', theme === 'dark');
+        themeToggleBtn.textContent = theme === 'dark' ? '☀' : '☾';
+      }
+
+      function refreshFolderSelect() {
+        boardFolderSelect.innerHTML = '';
+        app.folders.forEach(folder => {
+          const opt = document.createElement('option');
+          opt.value = folder.id;
+          opt.textContent = folder.name;
+          boardFolderSelect.appendChild(opt);
+        });
+      }
+
+      function render() {
+        updateFocusModeUI();
+        updateSidebarUI();
+        updateBoardLabel();
+        renderSidebar();
+        renderWorkspace();
+        renderKanban();
+      }
+
+      function updateSidebarUI() {
+        sidebar.classList.toggle('open', sidebarOpen);
+        sidebarBackdrop.classList.toggle('show', sidebarOpen);
+        menuToggleBtn.textContent = sidebarOpen ? '✕' : '☰';
+      }
+
+      function updateBoardLabel() {
+        const board = getCurrentBoard();
+        if (!board) {
+          currentBoardLabel.textContent = 'No board selected';
+          return;
+        }
+        const folder = app.folders.find(f => f.id === board.folderId);
+        currentBoardLabel.textContent = `${folder ? folder.name : 'Folder'} / ${board.name}`;
+      }
+
+      function renderSidebar() {
+        folderList.innerHTML = '';
+
+        app.folders.forEach(folder => {
+          const boards = app.boards.filter(b => b.folderId === folder.id);
+          const isOpen = openFolders.has(folder.id);
+
+          const folderEl = document.createElement('div');
+          folderEl.className = 'folder-item';
+
+          const head = document.createElement('div');
+          head.className = 'folder-head';
+
+          const left = document.createElement('div');
+          left.className = 'folder-left';
+          left.innerHTML = `
+            <div class="folder-name">${escapeHtml(folder.name)}</div>
+            <div class="folder-meta">${boards.length} board${boards.length === 1 ? '' : 's'}</div>
+          `;
+
+          const actions = document.createElement('div');
+          actions.className = 'folder-actions';
+
+          const toggleBtn = document.createElement('button');
+          toggleBtn.className = 'btn small';
+          toggleBtn.textContent = isOpen ? 'Hide' : 'Show';
+          toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (openFolders.has(folder.id)) openFolders.delete(folder.id);
+            else openFolders.add(folder.id);
+            renderSidebar();
+          });
+
+          const renameBtn = document.createElement('button');
+          renameBtn.className = 'btn small';
+          renameBtn.textContent = 'Rename';
+          renameBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const name = prompt('Rename folder:', folder.name);
+            if (!name || !name.trim()) return;
+            folder.name = name.trim();
+            persistApp();
+            refreshFolderSelect();
+            render();
+          });
+
+          const deleteBtn = document.createElement('button');
+          deleteBtn.className = 'btn small';
+          deleteBtn.textContent = 'Delete';
+          deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (app.folders.length <= 1) {
+              alert('You need at least one folder.');
+              return;
+            }
+
+            const ok = confirm(`Delete folder "${folder.name}"? Boards inside it will move to the first remaining folder.`);
+            if (!ok) return;
+
+            const targetFolder = app.folders.find(f => f.id !== folder.id);
+            app.boards.forEach(board => {
+              if (board.folderId === folder.id) {
+                board.folderId = targetFolder.id;
+                markBoardUpdated(board);
+              }
+            });
+
+            app.folders = app.folders.filter(f => f.id !== folder.id);
+            openFolders.delete(folder.id);
+            persistApp();
+            refreshFolderSelect();
+            render();
+          });
+
+          actions.appendChild(toggleBtn);
+          actions.appendChild(renameBtn);
+          actions.appendChild(deleteBtn);
+
+          head.appendChild(left);
+          head.appendChild(actions);
+          folderEl.appendChild(head);
+
+          if (isOpen) {
+            const boardWrap = document.createElement('div');
+            boardWrap.className = 'folder-boards';
+
+            boards.forEach(board => {
+              const item = document.createElement('div');
+              item.className = 'board-item' + (board.id === app.currentBoardId ? ' active' : '');
+
+              const main = document.createElement('div');
+              main.className = 'board-main';
+              main.innerHTML = `
+                <div class="board-name">${escapeHtml(board.name)}</div>
+                <div class="board-meta">${formatDate(board.updatedAt)} • ${board.cards.length} task${board.cards.length === 1 ? '' : 's'}</div>
+              `;
+
+              const actionsRow = document.createElement('div');
+              actionsRow.className = 'board-actions-row';
+
+              const openBtn = document.createElement('button');
+              openBtn.className = 'btn small';
+              openBtn.textContent = 'Open';
+              openBtn.addEventListener('click', () => setCurrentBoard(board.id));
+
+              const renameBtn = document.createElement('button');
+              renameBtn.className = 'btn small';
+              renameBtn.textContent = 'Rename';
+              renameBtn.addEventListener('click', () => {
+                const name = prompt('Rename board:', board.name);
+                if (!name || !name.trim()) return;
+                board.name = name.trim();
+                markBoardUpdated(board);
+                persistApp();
+                render();
+              });
+
+              const moveBtn = document.createElement('button');
+              moveBtn.className = 'btn small';
+              moveBtn.textContent = 'Move';
+              moveBtn.addEventListener('click', () => {
+                const folderNames = app.folders.map((f, i) => `${i + 1}. ${f.name}`).join('\n');
+                const res = prompt(`Move board to folder number:\n${folderNames}`, '1');
+                if (!res) return;
+                const index = Number(res) - 1;
+                if (Number.isNaN(index) || !app.folders[index]) return;
+                board.folderId = app.folders[index].id;
+                markBoardUpdated(board);
+                persistApp();
+                refreshFolderSelect();
+                render();
+              });
+
+              const duplicateBtn = document.createElement('button');
+              duplicateBtn.className = 'btn small';
+              duplicateBtn.textContent = 'Duplicate';
+              duplicateBtn.addEventListener('click', () => {
+                const clone = deepCloneBoard(board);
+                clone.id = uid();
+                clone.name = `${board.name} Copy`;
+                clone.updatedAt = Date.now();
+                clone.createdAt = Date.now();
+
+                const oldColumns = board.columns;
+                const oldRows = board.rows || [];
+
+                clone.columns = clone.columns.map(col => ({ ...col, id: uid() }));
+                clone.rows = (clone.rows || []).map(row => ({ ...row, id: uid() }));
+
+                clone.cards = clone.cards.map(card => {
+                  const oldColIndex = oldColumns.findIndex(c => c.id === card.columnId);
+                  const oldRowIndex = oldRows.findIndex(r => r.id === card.rowId);
+
+                  return {
+                    ...card,
+                    id: uid(),
+                    columnId: oldColIndex >= 0 ? clone.columns[oldColIndex].id : null,
+                    rowId: oldRowIndex >= 0 ? clone.rows[oldRowIndex].id : (clone.rows[0]?.id || null)
+                  };
+                });
+
+                app.boards.push(clone);
+                app.currentBoardId = clone.id;
+                persistApp();
+                render();
+              });
+
+              const deleteBtn = document.createElement('button');
+              deleteBtn.className = 'btn small';
+              deleteBtn.textContent = 'Delete';
+              deleteBtn.addEventListener('click', () => {
+                if (app.boards.length <= 1) {
+                  alert('You need at least one board.');
+                  return;
+                }
+
+                const ok = confirm(`Delete board "${board.name}"?`);
+                if (!ok) return;
+
+                app.boards = app.boards.filter(b => b.id !== board.id);
+                if (app.currentBoardId === board.id) {
+                  app.currentBoardId = app.boards[0]?.id || null;
+                }
+                persistApp();
+                render();
+              });
+
+              actionsRow.appendChild(openBtn);
+              actionsRow.appendChild(renameBtn);
+              actionsRow.appendChild(moveBtn);
+              actionsRow.appendChild(duplicateBtn);
+              actionsRow.appendChild(deleteBtn);
+
+              item.appendChild(main);
+              item.appendChild(actionsRow);
+              boardWrap.appendChild(item);
+            });
+
+            folderEl.appendChild(boardWrap);
+          }
+
+          folderList.appendChild(folderEl);
+        });
+      }
+
+      function renderWorkspace() {
+        workspaceInner.querySelectorAll('.card').forEach(el => el.remove());
+
+        const board = getCurrentBoard();
+        if (!board) {
+          workspaceHint.style.display = 'block';
+          return;
+        }
+
+        const workspaceCards = board.cards.filter(card => card.location === 'workspace');
+        workspaceHint.style.display = board.cards.length ? 'none' : 'block';
+
+        workspaceCards.forEach(card => {
+          const el = buildCard(card);
+          el.style.left = `${card.x}px`;
+          el.style.top = `${card.y}px`;
+          workspaceInner.appendChild(el);
+        });
+      }
+
+      function renderKanban() {
+        kanban.innerHTML = '';
+        const board = getCurrentBoard();
+        if (!board) return;
+
+        board.rows.forEach(row => {
+          const section = document.createElement('div');
+          section.className = 'kanban-section';
+
+          const sectionHead = document.createElement('div');
+          sectionHead.className = 'kanban-section-head';
+
+          const rowTitle = document.createElement('input');
+          rowTitle.className = 'kanban-row-title';
+          rowTitle.type = 'text';
+          rowTitle.value = row.title;
+          rowTitle.placeholder = 'Row title';
+          rowTitle.addEventListener('input', (e) => {
+            row.title = e.target.value;
+            markBoardUpdated(board);
+            persistApp();
+          });
+          rowTitle.addEventListener('pointerdown', (e) => e.stopPropagation());
+          rowTitle.addEventListener('click', (e) => e.stopPropagation());
+
+          sectionHead.appendChild(rowTitle);
+
+          if (board.rows.length > 1) {
+            const deleteRowBtn = document.createElement('button');
+            deleteRowBtn.className = 'icon-btn';
+            deleteRowBtn.type = 'button';
+            deleteRowBtn.title = 'Delete row';
+            deleteRowBtn.textContent = '×';
+            deleteRowBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
+            deleteRowBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const ok = confirm(`Delete row "${row.title}"? Cards in it will move to the first remaining row.`);
+              if (!ok) return;
+
+              const fallbackRow = board.rows.find(r => r.id !== row.id);
+              board.cards.forEach(card => {
+                if (card.rowId === row.id) {
+                  card.rowId = fallbackRow?.id || null;
+                }
+              });
+
+              board.rows = board.rows.filter(r => r.id !== row.id);
+              markBoardUpdated(board);
+              persistApp();
+              render();
+            });
+            sectionHead.appendChild(deleteRowBtn);
+          }
+
+          const sectionGrid = document.createElement('div');
+          sectionGrid.className = 'kanban-section-grid';
+
+          board.columns.forEach(column => {
+            const columnEl = document.createElement('section');
+            columnEl.className = 'column';
+            columnEl.dataset.columnId = column.id;
+            columnEl.dataset.rowId = row.id;
+
+            const head = document.createElement('div');
+            head.className = 'column-head';
+
+            const title = document.createElement('input');
+            title.className = 'column-title';
+            title.type = 'text';
+            title.value = column.title;
+            title.placeholder = 'Column name';
+            title.addEventListener('input', (e) => {
+              column.title = e.target.value;
+              markBoardUpdated(board);
+              persistApp();
+              renderSidebar();
+            });
+            title.addEventListener('pointerdown', (e) => e.stopPropagation());
+            title.addEventListener('click', (e) => e.stopPropagation());
+
+            const addBtn = document.createElement('button');
+            addBtn.className = 'icon-btn';
+            addBtn.type = 'button';
+            addBtn.title = 'Add task to this column';
+            addBtn.textContent = '+';
+            addBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
+            addBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const card = createCard(board);
+              card.location = 'kanban';
+              card.columnId = column.id;
+              card.rowId = row.id;
+              board.cards.push(card);
+              selectedCardId = card.id;
+              markBoardUpdated(board);
+              persistApp();
+              render();
+            });
+
+            const delBtn = document.createElement('button');
+            delBtn.className = 'icon-btn';
+            delBtn.type = 'button';
+            delBtn.title = 'Delete column';
+            delBtn.textContent = '×';
+            delBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
+            delBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              if (board.columns.length <= 1) {
+                alert('You need at least one column.');
+                return;
+              }
+
+              const ok = confirm(`Delete "${column.title}"? Cards in it will move back to the workspace.`);
+              if (!ok) return;
+
+              board.cards.forEach(card => {
+                if (card.columnId === column.id) {
+                  card.location = 'workspace';
+                  card.columnId = null;
+                }
+              });
+
+              board.columns = board.columns.filter(c => c.id !== column.id);
+              markBoardUpdated(board);
+              persistApp();
+              render();
+            });
+
+            head.appendChild(title);
+            head.appendChild(addBtn);
+            head.appendChild(delBtn);
+
+            const body = document.createElement('div');
+            body.className = 'column-body';
+
+            const dropzone = document.createElement('div');
+            dropzone.className = 'kanban-dropzone';
+            dropzone.dataset.columnId = column.id;
+            dropzone.dataset.rowId = row.id;
+
+            dropzone.addEventListener('pointerenter', () => {
+              if (!dragState) return;
+              columnEl.classList.add('drag-over');
+            });
+
+            dropzone.addEventListener('pointerleave', () => {
+              columnEl.classList.remove('drag-over');
+            });
+
+            const cards = board.cards.filter(card =>
+              card.location === 'kanban' &&
+              card.columnId === column.id &&
+              card.rowId === row.id
+            );
+
+            if (!cards.length) {
+              const empty = document.createElement('div');
+              empty.className = 'empty-row';
+              empty.textContent = 'Drop tasks here';
+              dropzone.appendChild(empty);
+            } else {
+              cards.forEach(card => dropzone.appendChild(buildCard(card)));
+            }
+
+            body.appendChild(dropzone);
+            columnEl.appendChild(head);
+            columnEl.appendChild(body);
+            sectionGrid.appendChild(columnEl);
+          });
+
+          section.appendChild(sectionHead);
+          section.appendChild(sectionGrid);
+          kanban.appendChild(section);
+        });
+      }
+
+      function buildCard(card) {
+        const board = getCurrentBoard();
+        const isSelected = selectedCardId === card.id;
+
+        const el = document.createElement('article');
+        el.className = 'card' + (isSelected ? ' selected' : ' compact');
+        el.dataset.cardId = card.id;
+        const bgColor = getColorValue(card);
+        el.style.background = bgColor;
+        el.style.setProperty('--card-text', getContrastTextColor(bgColor));
+
+        el.addEventListener('click', (e) => {
+          if (dragState) return;
+          if (selectedCardId !== card.id) {
+            selectedCardId = card.id;
+            renderWorkspace();
+            renderKanban();
+          }
+          e.stopPropagation();
+        });
+
+        const head = document.createElement('div');
+        head.className = 'card-head';
+
+        const handle = document.createElement('button');
+        handle.className = 'drag-handle';
+        handle.type = 'button';
+        handle.title = 'Drag task';
+        handle.textContent = '⋮⋮';
+
+        const tools = document.createElement('div');
+        tools.className = 'card-tools';
+
+        const toWorkspaceBtn = document.createElement('button');
+        toWorkspaceBtn.className = 'icon-btn';
+        toWorkspaceBtn.type = 'button';
+        toWorkspaceBtn.title = 'Move to workspace';
+        toWorkspaceBtn.textContent = '↖';
+        toWorkspaceBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          card.location = 'workspace';
+          card.columnId = null;
+          if (typeof card.x !== 'number') card.x = 40;
+          if (typeof card.y !== 'number') card.y = 40;
+          markBoardUpdated(board);
+          persistApp();
+          render();
+        });
+
+        const delBtn = document.createElement('button');
+        delBtn.className = 'icon-btn';
+        delBtn.type = 'button';
+        delBtn.title = 'Delete task';
+        delBtn.textContent = '×';
+        delBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          board.cards = board.cards.filter(c => c.id !== card.id);
+          if (selectedCardId === card.id) selectedCardId = null;
+          markBoardUpdated(board);
+          persistApp();
+          render();
+        });
+
+        tools.appendChild(toWorkspaceBtn);
+        tools.appendChild(delBtn);
+        head.appendChild(handle);
+        head.appendChild(tools);
+        el.appendChild(head);
+
+        if (isSelected) {
+          const title = document.createElement('textarea');
+          title.className = 'title';
+          title.placeholder = 'Task title';
+          title.value = card.title || '';
+          bindAutoGrow(title);
+          title.addEventListener('input', (e) => {
+            card.title = e.target.value;
+            markBoardUpdated(board);
+            persistApp();
+            autoGrow(title);
+            renderSidebar();
+          });
+
+          const desc = document.createElement('textarea');
+          desc.className = 'desc';
+          desc.placeholder = 'Description';
+          desc.value = card.description || '';
+          bindAutoGrow(desc);
+          desc.addEventListener('input', (e) => {
+            card.description = e.target.value;
+            markBoardUpdated(board);
+            persistApp();
+            autoGrow(desc);
+          });
+
+          const dueDate = document.createElement('input');
+          dueDate.className = 'due-date';
+          dueDate.type = 'date';
+          dueDate.value = card.dueDate || '';
+          dueDate.addEventListener('input', (e) => {
+            card.dueDate = e.target.value;
+            markBoardUpdated(board);
+            persistApp();
+          });
+
+          el.appendChild(title);
+          el.appendChild(desc);
+          el.appendChild(dueDate);
+        } else {
+          const titleDisplay = document.createElement('div');
+          titleDisplay.className = 'card-title-display' + (!card.title?.trim() ? ' empty' : '');
+          titleDisplay.textContent = card.title?.trim() || 'Untitled task';
+          el.appendChild(titleDisplay);
+
+          if (card.dueDate) {
+            const dueDisplay = document.createElement('div');
+            dueDisplay.className = 'card-due-display';
+            dueDisplay.textContent = `Due: ${formatDueDate(card.dueDate)}`;
+            el.appendChild(dueDisplay);
+          }
+        }
+
+        const tags = document.createElement('div');
+        tags.className = 'tags' + (isSelected ? '' : ' no-margin');
+
+        (card.tags || []).forEach((tagText, i) => {
+          const tag = document.createElement('span');
+          tag.className = 'tag';
+
+          const label = document.createElement('span');
+          label.textContent = tagText;
+          tag.appendChild(label);
+
+          if (isSelected) {
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.title = 'Remove tag';
+            remove.textContent = '×';
+            remove.addEventListener('click', (e) => {
+              e.stopPropagation();
+              card.tags.splice(i, 1);
+              applyPriorityColorFromTags(card);
+              markBoardUpdated(board);
+              persistApp();
+              render();
+            });
+            tag.appendChild(remove);
+          }
+
+          tags.appendChild(tag);
+        });
+
+        if ((card.tags || []).length || isSelected) {
+          el.appendChild(tags);
+        }
+
+        if (isSelected) {
+          const tagAdd = document.createElement('div');
+          tagAdd.className = 'tag-add';
+
+          const tagInput = document.createElement('input');
+          tagInput.className = 'tag-input';
+          tagInput.type = 'text';
+          tagInput.placeholder = 'Add tag and press Enter';
+
+          tagInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              const value = tagInput.value.trim();
+              if (!value) return;
+              card.tags = card.tags || [];
+              card.tags.push(value);
+              applyPriorityColorFromTags(card);
+              tagInput.value = '';
+              markBoardUpdated(board);
+              persistApp();
+              render();
+            }
+          });
+
+          tagAdd.appendChild(tagInput);
+          el.appendChild(tagAdd);
+
+          const colorRow = document.createElement('div');
+          colorRow.className = 'swatches';
+
+          COLORS.forEach(color => {
+            const sw = document.createElement('button');
+            sw.className = 'swatch' + (card.color === color.key ? ' active' : '');
+            sw.type = 'button';
+            sw.title = `Set ${color.key}`;
+            sw.style.background = color.value;
+            sw.addEventListener('click', (e) => {
+              e.stopPropagation();
+              card.color = color.key;
+              card.customColor = '';
+              markBoardUpdated(board);
+              persistApp();
+              render();
+            });
+            colorRow.appendChild(sw);
+          });
+
+          const customSw = document.createElement('button');
+          customSw.className = 'swatch custom' + (card.color === 'custom' ? ' active' : '');
+          customSw.type = 'button';
+          customSw.title = 'Custom hex colour';
+          customSw.textContent = '+';
+          customSw.style.background = card.color === 'custom' && card.customColor ? card.customColor : 'transparent';
+          customSw.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const input = prompt('Enter a hex colour, e.g. #FFCC00', card.customColor || '#FFFFFF');
+            if (!input) return;
+
+            const value = input.trim();
+            const isValidHex = /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(value);
+
+            if (!isValidHex) {
+              alert('That is not a valid hex colour.');
+              return;
+            }
+
+            card.color = 'custom';
+            card.customColor = value;
+            markBoardUpdated(board);
+            persistApp();
+            render();
+          });
+          colorRow.appendChild(customSw);
+
+          el.appendChild(colorRow);
+        }
+
+        el.querySelectorAll('textarea, input, button').forEach(node => {
+          node.addEventListener('pointerdown', (e) => e.stopPropagation());
+          node.addEventListener('click', (e) => e.stopPropagation());
+        });
+
+        handle.addEventListener('pointerdown', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          selectedCardId = card.id;
+          startCardDrag(e, card, el);
+        });
+
+        return el;
+      }
+
+      function applyPriorityColorFromTags(card) {
+        if (!Array.isArray(card.tags) || !card.tags.length) return;
+
+        const normalized = card.tags.map(tag => String(tag).trim().toLowerCase());
+
+        if (normalized.includes('high')) {
+          card.color = 'orange';
+          card.customColor = '';
+          return;
+        }
+
+        if (normalized.includes('medium')) {
+          card.color = 'yellow';
+          card.customColor = '';
+          return;
+        }
+
+        if (normalized.includes('low')) {
+          card.color = 'green';
+          card.customColor = '';
+        }
+      }
+
+      function startCardDrag(event, card, el) {
+        const rect = el.getBoundingClientRect();
+
+        dragState = {
+          cardId: card.id,
+          offsetX: event.clientX - rect.left,
+          offsetY: event.clientY - rect.top,
+          element: el,
+          width: rect.width,
+          height: rect.height
+        };
+
+        el.classList.add('dragging');
+        el.style.position = 'fixed';
+        el.style.left = `${rect.left}px`;
+        el.style.top = `${rect.top}px`;
+        el.style.width = `${rect.width}px`;
+        el.style.height = `${rect.height}px`;
+        el.style.zIndex = '99999';
+
+        document.body.appendChild(el);
+
+        if (card.location === 'kanban') {
+          const workspaceRect = workspaceInner.getBoundingClientRect();
+          const x = event.clientX - workspaceRect.left - dragState.offsetX + workspace.scrollLeft;
+          const y = event.clientY - workspaceRect.top - dragState.offsetY + workspace.scrollTop;
+
+          card.location = 'workspace';
+          card.columnId = null;
+          card.x = clamp(x, 0, workspaceInner.clientWidth - 270);
+          card.y = clamp(y, 0, workspaceInner.clientHeight - 260);
+          persistApp();
+        }
+      }
+
+      function onPointerMove(event) {
+        if (!dragState) return;
+
+        const board = getCurrentBoard();
+        if (!board) return;
+
+        const card = board.cards.find(c => c.id === dragState.cardId);
+        if (!card) return;
+
+        const el = dragState.element;
+        if (!el) return;
+
+        const fixedLeft = event.clientX - dragState.offsetX;
+        const fixedTop = event.clientY - dragState.offsetY;
+
+        el.style.left = `${fixedLeft}px`;
+        el.style.top = `${fixedTop}px`;
+
+        const workRect = workspaceInner.getBoundingClientRect();
+        const x = event.clientX - workRect.left - dragState.offsetX + workspace.scrollLeft;
+        const y = event.clientY - workRect.top - dragState.offsetY + workspace.scrollTop;
+
+        card.x = clamp(x, 0, workspaceInner.clientWidth - dragState.width);
+        card.y = clamp(y, 0, workspaceInner.clientHeight - dragState.height);
+
+        highlightHoveredColumn(event.clientX, event.clientY);
+      }
+
+      function onPointerUp(event) {
+        if (!dragState) return;
+
+        const board = getCurrentBoard();
+        if (!board) {
+          dragState = null;
+          return;
+        }
+
+        const card = board.cards.find(c => c.id === dragState.cardId);
+        if (!card) {
+          resetDragUI();
+          dragState = null;
+          return;
+        }
+
+        const hitRow = document.elementFromPoint(event.clientX, event.clientY)?.closest('.kanban-dropzone');
+
+        if (hitRow) {
+          card.location = 'kanban';
+          card.columnId = hitRow.dataset.columnId;
+          card.rowId = hitRow.dataset.rowId;
+        } else {
+          card.location = 'workspace';
+          card.columnId = null;
+        }
+
+        markBoardUpdated(board);
+        persistApp();
+        resetDragUI();
+        dragState = null;
+        render();
+      }
+
+      function highlightHoveredColumn(clientX, clientY) {
+        document.querySelectorAll('.column').forEach(col => col.classList.remove('drag-over'));
+        const hit = document.elementFromPoint(clientX, clientY)?.closest('.column');
+        if (hit) hit.classList.add('drag-over');
+      }
+
+      function resetDragUI() {
+        document.querySelectorAll('.column').forEach(col => col.classList.remove('drag-over'));
+
+        if (dragState?.element) {
+          const el = dragState.element;
+
+          el.classList.remove('dragging');
+          el.style.position = '';
+          el.style.left = '';
+          el.style.top = '';
+          el.style.width = '';
+          el.style.height = '';
+          el.style.zIndex = '';
+
+          if (el.parentNode === document.body) {
+            el.remove();
+          }
+        }
+      }
+
+      function updateFocusModeUI() {
+        workspaceLayout.classList.remove('focus-workspace', 'focus-kanban');
+
+        if (focusMode === 'workspace') {
+          workspaceLayout.classList.add('focus-workspace');
+        } else if (focusMode === 'kanban') {
+          workspaceLayout.classList.add('focus-kanban');
+        }
+
+        workspaceFullscreenBtn.textContent = focusMode === 'workspace' ? '⤬' : '⛶';
+        kanbanFullscreenBtn.textContent = focusMode === 'kanban' ? '⤬' : '⛶';
+      }
+
+      function createCard(board) {
+        const count = board.cards.filter(c => c.location === 'workspace').length;
+        return {
+          id: uid(),
+          title: '',
+          description: '',
+          tags: [],
+          color: COLORS[count % COLORS.length].key,
+          customColor: '',
+          dueDate: '',
+          location: 'workspace',
+          columnId: null,
+          rowId: board.rows[0]?.id || null,
+          x: 40 + ((count % 4) * 280),
+          y: 40 + (Math.floor(count / 4) * 220)
+        };
+      }
+      function hexToRgb(hex) {
+        const clean = hex.replace('#', '').trim();
+
+        if (clean.length === 3) {
+          return {
+            r: parseInt(clean[0] + clean[0], 16),
+            g: parseInt(clean[1] + clean[1], 16),
+            b: parseInt(clean[2] + clean[2], 16)
+          };
+        }
+
+        if (clean.length === 6) {
+          return {
+            r: parseInt(clean.slice(0, 2), 16),
+            g: parseInt(clean.slice(2, 4), 16),
+            b: parseInt(clean.slice(4, 6), 16)
+          };
+        }
+
+        return null;
+      }
+
+      function rgbStringToRgb(rgbString) {
+        const match = rgbString.match(/rgba?\(([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/i);
+        if (!match) return null;
+
+        return {
+          r: Number(match[1]),
+          g: Number(match[2]),
+          b: Number(match[3])
+        };
+      }
+
+      function parseColorToRgb(color) {
+        if (!color) return null;
+
+        if (color.startsWith('#')) {
+          return hexToRgb(color);
+        }
+
+        if (color.startsWith('rgb')) {
+          return rgbStringToRgb(color);
+        }
+
+        return null;
+      }
+
+      function getContrastTextColor(backgroundColor) {
+        const rgb = parseColorToRgb(backgroundColor);
+        if (!rgb) return '#18202a';
+
+        const luminance =
+          (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
+
+        return luminance < 0.55 ? '#ffffff' : '#18202a';
+      }
+
+      function formatDate(timestamp) {
+        const d = new Date(timestamp || Date.now());
+        return d.toLocaleString();
+      }
+
+      function formatDueDate(value) {
+        if (!value) return '';
+        const d = new Date(value + 'T00:00:00');
+        if (Number.isNaN(d.getTime())) return value;
+        return d.toLocaleDateString();
+      }
+
+      function uid() {
+        return Math.random().toString(36).slice(2, 10);
+      }
+
+      function getCssVar(name) {
+        return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      }
+
+      function getColorValue(cardOrKey) {
+        if (typeof cardOrKey === 'object' && cardOrKey !== null) {
+          if (cardOrKey.color === 'custom' && cardOrKey.customColor) {
+            return cardOrKey.customColor;
+          }
+          const match = COLORS.find(c => c.key === cardOrKey.color);
+          return match ? match.value : COLORS[0].value;
+        }
+
+        const match = COLORS.find(c => c.key === cardOrKey);
+        return match ? match.value : COLORS[0].value;
+      }
+
+      function clamp(num, min, max) {
+        return Math.max(min, Math.min(max, num));
+      }
+
+      function bindAutoGrow(el) {
+        requestAnimationFrame(() => autoGrow(el));
+      }
+
+      function autoGrow(el) {
+        el.style.height = 'auto';
+        el.style.height = Math.max(el.scrollHeight, el.classList.contains('title') ? 44 : 84) + 'px';
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#39;');
+      }
+    })();
+  </script>
+</body>
+</html>

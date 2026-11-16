@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EDGE — Emerging Digital Gaming Expo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --brand: #902cb8;
+        --brand-hot: #b44ada;
+        --brand-deep: #5c1480;
+        --void: #12061a;
+        --ink: #f7eefc;
+        --soft: #c7a8d8;
+        --line: rgba(247, 238, 252, 0.14);
+        --panel: rgba(28, 10, 40, 0.72);
+        --pixel: 'Pixelify Sans', 'Courier New', monospace;
+        --body: 'Space Grotesk', system-ui, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--ink);
+        background: var(--void);
+        font-family: var(--body);
+        overflow-x: clip;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .site-nav {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.15rem clamp(1.1rem, 4vw, 2.5rem);
+      }
+
+      .site-nav a {
+        font-family: var(--pixel);
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .nav-brand {
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .nav-brand img {
+        display: block;
+        width: auto;
+        height: 1.35rem;
+        image-rendering: pixelated;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.25rem;
+      }
+
+      .hero {
+        position: relative;
+        min-height: 100svh;
+        display: grid;
+        align-items: end;
+        overflow: hidden;
+        isolation: isolate;
+      }
+
+      .hero-media {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+      }
+
+      .hero-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 40%;
+        transform: scale(1.04);
+        animation: hero-drift 18s ease-in-out infinite alternate;
+      }
+
+      .hero-media::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(180deg, rgba(18, 6, 26, 0.25) 0%, rgba(18, 6, 26, 0.35) 38%, rgba(18, 6, 26, 0.9) 100%),
+          radial-gradient(80% 60% at 70% 20%, rgba(144, 44, 184, 0.35), transparent 55%),
+          radial-gradient(70% 50% at 15% 80%, rgba(180, 74, 218, 0.18), transparent 50%);
+      }
+
+      .hero-copy {
+        position: relative;
+        z-index: 1;
+        width: min(58rem, calc(100% - 2.2rem));
+        margin: 0 auto 7vh;
+        padding-top: 6rem;
+      }
+
+      .brand {
+        margin: 0;
+        opacity: 0;
+        transform: translateY(1.4rem);
+        animation: rise 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 120ms forwards;
+      }
+
+      .brand img {
+        display: block;
+        width: min(100%, 28rem);
+        height: auto;
+        image-rendering: pixelated;
+        filter: drop-shadow(0 18px 40px rgba(144, 44, 184, 0.35));
+      }
+
+      .hero-title {
+        max-width: 18ch;
+        margin: 1.15rem 0 0;
+        font-family: var(--pixel);
+        font-size: clamp(1.35rem, 3vw, 2.15rem);
+        font-weight: 700;
+        line-height: 1.15;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        opacity: 0;
+        transform: translateY(1rem);
+        animation: rise 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 280ms forwards;
+      }
+
+      .hero-lede {
+        max-width: 34rem;
+        margin: 1rem 0 0;
+        color: var(--soft);
+        font-family: var(--pixel);
+        font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+        font-weight: 500;
+        line-height: 1.45;
+        opacity: 0;
+        transform: translateY(1rem);
+        animation: rise 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 420ms forwards;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1.6rem;
+        opacity: 0;
+        transform: translateY(1rem);
+        animation: rise 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 560ms forwards;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.9rem;
+        padding: 0.75rem 1.15rem;
+        border: 2px solid transparent;
+        border-radius: 0;
+        font-family: var(--pixel);
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        cursor: pointer;
+        image-rendering: pixelated;
+        transition:
+          transform 200ms ease,
+          background 200ms ease,
+          border-color 200ms ease,
+          box-shadow 200ms ease;
+      }
+
+      .btn:hover {
+        transform: translate(-1px, -1px);
+      }
+
+      .btn-primary {
+        background: var(--brand);
+        color: #fff;
+        box-shadow: 3px 3px 0 var(--brand-deep);
+      }
+
+      .btn-primary:hover {
+        background: var(--brand-hot);
+      }
+
+      .btn-ghost {
+        border-color: rgba(247, 238, 252, 0.45);
+        background: transparent;
+        color: var(--ink);
+        box-shadow: 3px 3px 0 rgba(247, 238, 252, 0.18);
+      }
+
+      .btn-ghost:hover {
+        border-color: var(--brand-hot);
+      }
+
+      .signal {
+        position: absolute;
+        right: clamp(1.1rem, 4vw, 2.5rem);
+        bottom: 1.4rem;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        color: var(--soft);
+        font-family: var(--pixel);
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .signal i {
+        width: 0.55rem;
+        height: 0.55rem;
+        border-radius: 0;
+        background: var(--brand-hot);
+        box-shadow: 0 0 0 0 rgba(144, 44, 184, 0.55);
+        animation: pulse 1.8s ease-out infinite;
+      }
+
+      .section {
+        padding: clamp(4rem, 8vw, 6.5rem) clamp(1.1rem, 4vw, 2.5rem);
+        border-top: 1px solid var(--line);
+      }
+
+      .section-kicker {
+        margin: 0 0 0.9rem;
+        color: var(--brand-hot);
+        font-family: var(--pixel);
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .section h2 {
+        max-width: 16ch;
+        margin: 0;
+        font-family: var(--pixel);
+        font-size: clamp(1.7rem, 4vw, 2.8rem);
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        line-height: 1.12;
+        text-transform: uppercase;
+      }
+
+      .agenda {
+        display: grid;
+        gap: 1.5rem;
+        margin-top: 2.4rem;
+      }
+
+      .agenda article {
+        display: grid;
+        gap: 0.35rem;
+        padding-top: 1.1rem;
+        border-top: 1px solid var(--line);
+      }
+
+      .agenda h3 {
+        margin: 0;
+        font-family: var(--pixel);
+        font-size: 1.35rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+
+      .agenda p {
+        margin: 0;
+        max-width: 36rem;
+        color: var(--soft);
+        line-height: 1.55;
+      }
+
+      .agenda time {
+        color: var(--brand-hot);
+        font-family: var(--pixel);
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .about-grid {
+        display: grid;
+        gap: 1.5rem;
+        margin-top: 1.8rem;
+      }
+
+      .about-grid p {
+        margin: 0;
+        max-width: 38rem;
+        color: var(--soft);
+        font-size: 1.08rem;
+        line-height: 1.65;
+      }
+
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+      }
+
+      .pill-row span {
+        padding: 0.5rem 0.75rem;
+        border: 2px solid var(--line);
+        border-radius: 0;
+        background: var(--panel);
+        font-family: var(--pixel);
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        box-shadow: 2px 2px 0 rgba(144, 44, 184, 0.28);
+      }
+
+      .site-footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.85rem 1.5rem;
+        padding: 1.1rem clamp(1.1rem, 4vw, 2.5rem) 1.6rem;
+        border-top: 1px solid var(--line);
+        color: var(--soft);
+        font-family: var(--pixel);
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      @keyframes rise {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes hero-drift {
+        to {
+          transform: scale(1.1) translate3d(-1.5%, -1%, 0);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(144, 44, 184, 0.55);
+        }
+        100% {
+          box-shadow: 0 0 0 12px rgba(144, 44, 184, 0);
+        }
+      }
+
+      @media (min-width: 860px) {
+        .agenda {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.75rem;
+        }
+
+        .agenda article {
+          padding-top: 0;
+          border-top: 0;
+          padding-left: 1.25rem;
+          border-left: 1px solid var(--line);
+        }
+
+        .agenda article:first-child {
+          padding-left: 0;
+          border-left: 0;
+        }
+
+        .about-grid {
+          grid-template-columns: 1.2fr 0.8fr;
+          align-items: end;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .brand,
+        .hero-title,
+        .hero-lede,
+        .hero-actions,
+        .hero-media img,
+        .signal i {
+          animation: none;
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-nav">
+      <a class="nav-brand" href="#top" aria-label="EDGE home">
+        <img src="./logo.png" alt="" />
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#agenda">Agenda</a>
+        <a href="#tickets">Tickets</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-label="EDGE hero">
+        <div class="hero-media">
+          <img src="./hero.jpg" alt="" />
+        </div>
+        <div class="hero-copy">
+          <h1 class="brand">
+            <img src="./logo.png" alt="EDGE" />
+          </h1>
+          <p class="hero-title">Emerging Digital Gaming Expo</p>
+          <p class="hero-lede">
+            Three days at the frontier of play — new worlds, live demos, and the makers shaping what
+            games become next.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="./tickets.html">Buy tickets</a>
+            <a class="btn btn-ghost" href="#agenda">View agenda</a>
+          </div>
+        </div>
+        <p class="signal"><i aria-hidden="true"></i> <span data-event-range>London · 25–30 June</span></p>
+      </section>
+
+      <section class="section" id="about">
+        <p class="section-kicker">01 / About</p>
+        <h2>Built for the next wave of play</h2>
+        <div class="about-grid">
+          <p>
+            EDGE gathers studios, students, and digital artists around prototypes you can touch.
+            Expect early builds, experimental tools, talks from people still in the making, and a
+            floor that feels closer to a lab than a trade show.
+          </p>
+          <div class="pill-row" aria-label="Focus areas">
+            <span>Indie</span>
+            <span>XR</span>
+            <span>Creative code</span>
+            <span>Student showcases</span>
+            <span>Live demos</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="agenda">
+        <p class="section-kicker">02 / Agenda</p>
+        <h2>Three days on the floor</h2>
+        <div class="agenda">
+          <article>
+            <time datetime="2026-09-18">Day 01</time>
+            <h3>Open play</h3>
+            <p>Walk-up demos, first looks, and open tables where makers talk through unfinished ideas.</p>
+          </article>
+          <article>
+            <time datetime="2026-09-19">Day 02</time>
+            <h3>Signals</h3>
+            <p>Short talks and playtests focused on interaction craft, systems, and visual language.</p>
+          </article>
+          <article>
+            <time datetime="2026-09-20">Day 03</time>
+            <h3>Afterglow</h3>
+            <p>Closing showcases, awards for emerging work, and late-floor sessions that stay open late.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="tickets">
+        <p class="section-kicker">03 / Tickets</p>
+        <h2>Be there when it happens</h2>
+        <div class="about-grid">
+          <p>
+            General admission opens doors to the full expo floor. Studio passes unlock private
+            playtest rooms and morning maker briefings. Pick your day, then head to checkout.
+          </p>
+          <div class="hero-actions" style="margin-top: 0; opacity: 1; transform: none; animation: none">
+            <a class="btn btn-primary" href="./tickets.html">Buy tickets</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span data-footer-year>© EDGE</span>
+      <span>Emerging Digital Gaming Expo</span>
+      <span>London</span>
+    </footer>
+    <script>
+      (() => {
+        const year = new Date().getFullYear() + 1
+        const range = document.querySelector('[data-event-range]')
+        const footer = document.querySelector('[data-footer-year]')
+        if (range) range.textContent = `London · 25–30 June ${year}`
+        if (footer) footer.textContent = `© ${new Date().getFullYear()} EDGE`
+        document.querySelectorAll('.agenda time').forEach((el, index) => {
+          const day = 25 + index
+          el.dateTime = `${year}-06-${String(day).padStart(2, '0')}`
+          el.textContent = `25–30 Jun ${year} · Day 0${index + 1}`
+        })
+      })()
+    </script>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Plinth 3D Modeller</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M12 3l8 4.500v9L12 21l-8-4.500v-9z%27 fill=%27%232a5bd7%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div id="app">
+  <header id="topbar"></header>
+  <main id="stage">
+    <canvas id="viewport" aria-label="3D viewport"></canvas>
+    <canvas id="overlay" aria-hidden="true"></canvas>
+    <div id="pen-cursor" hidden></div>
+    <div id="readout" hidden></div>
+    <nav id="toolbar" aria-label="Tools"></nav>
+    <nav id="sketchbar" aria-label="Sketch tools" hidden></nav>
+    <section id="browser" class="panel" aria-label="Objects"></section>
+    <section id="properties" class="panel" aria-label="Properties"></section>
+    <div id="viewcube"></div>
+    <section id="toolpanel" aria-label="Tool options" hidden></section>
+    <div id="hint"></div>
+    <div id="toasts" aria-live="polite"></div>
+    <div id="fatal" hidden><h1>Plinth could not start</h1><p></p></div>
+  </main>
+</div>
+<div id="menu-layer"></div>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
