@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useEffectEvent, useRef, useState } from 'react'
+import { asset } from './asset.js'
 
 const REFRESH_MS = 10 * 60 * 1000
 
@@ -386,19 +387,19 @@ const PREVIEW_LABEL = {
 
 /** Drop PNGs in public/projects/atmo/ using these names. */
 const CLOUD_FILES = {
-  clear: '/projects/atmo/cloud-clear.png',
-  partly: '/projects/atmo/cloud-partly.png',
-  overcast: '/projects/atmo/cloud-overcast.png',
-  fog: '/projects/atmo/cloud-fog.png',
-  drizzle: '/projects/atmo/cloud-drizzle.png',
-  rain: '/projects/atmo/cloud-rain.png',
-  snow: '/projects/atmo/cloud-snow.png',
-  storm: '/projects/atmo/cloud-storm.png',
+  clear: asset('/projects/atmo/cloud-clear.png'),
+  partly: asset('/projects/atmo/cloud-partly.png'),
+  overcast: asset('/projects/atmo/cloud-overcast.png'),
+  fog: asset('/projects/atmo/cloud-fog.png'),
+  drizzle: asset('/projects/atmo/cloud-drizzle.png'),
+  rain: asset('/projects/atmo/cloud-rain.png'),
+  snow: asset('/projects/atmo/cloud-snow.png'),
+  storm: asset('/projects/atmo/cloud-storm.png'),
 }
 
-const SUN_SRC = '/projects/atmo/sun.png'
-const MOON_SRC = '/projects/atmo/moon.png'
-const LIGHTNING_SRC = '/projects/atmo/lightning.png'
+const SUN_SRC = asset('/projects/atmo/sun.png')
+const MOON_SRC = asset('/projects/atmo/moon.png')
+const LIGHTNING_SRC = asset('/projects/atmo/lightning.png')
 
 const CLOUD_ALIAS = {
   partly: 'clear',

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { asset } from './asset.js'
 import AsciiGalaxy from './AsciiGalaxy.jsx'
 import HeadStudio from './HeadStudio.jsx'
 import PaintHero from './PaintHero.jsx'
@@ -161,7 +162,7 @@ function ProjectGallery({ images }) {
           }
           onMouseEnter={() => setActive(index)}
         >
-          <img src={src} alt="" />
+          <img src={asset(src)} alt="" />
         </li>
       ))}
     </ul>
@@ -209,7 +210,7 @@ function ProjectEmbed({ src, title }) {
       </div>
       <iframe
         className="project-embed-frame"
-        src={src}
+        src={asset(src)}
         title={title}
         allow="fullscreen; gamepad; autoplay"
         allowFullScreen
@@ -245,7 +246,7 @@ function ProjectPage({ project }) {
         <AsciiGalaxy />
       ) : isEmbed ? null : (
         <div className="project-page-media">
-          <img src={project.image} alt="" />
+          <img src={asset(project.image)} alt="" />
         </div>
       )}
       <header>
@@ -419,7 +420,7 @@ export default function App() {
                 ) : item.kind === 'galaxy' ? (
                   <AsciiGalaxy variant="card" />
                 ) : (
-                  <img className={item.slug === 'fenolia' ? 'is-wide' : undefined} src={item.image} alt="" />
+                  <img className={item.slug === 'fenolia' ? 'is-wide' : undefined} src={asset(item.image)} alt="" />
                 )}
                 <div className="project-card-foot">
                   <div>
