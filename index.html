@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      try {
+        const theme = localStorage.getItem('portfolio-theme')
+        if (theme === 'dark' || theme === 'light') {
+          document.documentElement.dataset.theme = theme
+        }
+      } catch (error) {}
+    </script>
+    <meta
+      name="description"
+      content="Portfolio of Thomas Bridgeland — student and developer. Paint the hero with your cursor."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,650;1,9..144,500&family=Outfit:wght@360;500;600&family=Jersey+25&family=Pixelify+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Thomas Bridgeland — Portfolio</title>
+    <script type="module" crossorigin src="./assets/index-DOSM_7z1.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-C_gNAgIl.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
